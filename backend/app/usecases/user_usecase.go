@@ -15,10 +15,10 @@ func NewUserUsecase(userRepository interfaces.UserRepository) *UserUsecase {
 	}
 }
 
-func (u *UserUsecase) GetUserFromUsername(username string) (*models.User, error) {
-	return u.UserRepository.GetUserFromUsername(username)
+func (u *UserUsecase) GetUserFromUsername(user *models.User) error {
+	return u.UserRepository.GetUserFromUsername(user)
 }
 
-func (u *UserUsecase) CreateUser(user *models.User) (*models.User, error) {
+func (u *UserUsecase) CreateUser(user *models.User) error {
 	return u.UserRepository.CreateUser(user)
 }

@@ -66,7 +66,10 @@ func (h *UserHandler) Logout(c *gin.Context) {
 
 func (h *UserHandler) IsLoggedIn(c *gin.Context) {
 	session := sessions.Default(c)
-	c.JSON(http.StatusOK, gin.H{"isLoggedIn": session.Get("userID") != nil})
+	c.JSON(http.StatusOK, gin.H{
+		"isLoggedIn": session.Get("userID") != nil,
+		"userID":     session.Get("userID"),
+	})
 }
 
 func checkPassword(user *models.User, password string) error {

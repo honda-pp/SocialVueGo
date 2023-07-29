@@ -28,9 +28,18 @@ export const logoutUser = async () => {
   }
 };
 
-export const isLoggedIn = async () => {
+export const checkLoggedIn = async () => {
   try {
-    const response = await userApi.get(`/isLoggedIn`);
+    const response = await userApi.get(`/checkLoggedIn`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const signupUser = async (userData) => {
+  try {
+    const response = await userApi.post(`/signup`, userData);
     return response.data;
   } catch (error) {
     throw error.response.data;

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { loginUser, logoutUser, isLoggedIn } from '../api/userApi';
+import { loginUser, logoutUser, signupUser, checkLoggedIn } from '../api/userApi';
 
 export default createStore({
   state: {
@@ -16,23 +16,47 @@ export default createStore({
   },
   actions: {
     async login({ commit }, userData) {
-      const response = await loginUser(userData);
-      commit('SET_LOGIN_STATUS', true);
-      commit('SET_USER_ID', response.userID);
-      return response.userID;
+      try {
+        const response = await loginUser(userData);
+        commit('SET_LOGIN_STATUS', true);
+        commit('SET_USER_ID', response.userID);
+      } catch (error) {
+        console.error('Login failed:', error);
+        throw new Error('Login failed. Please check your username and password.');
+      }
     },
     async logout({ commit }) {
-      await logoutUser();
-      commit('SET_LOGIN_STATUS', false);
-      commit('SET_USER_ID', null);
+      try {
+        await logoutUser();
+        commit('SET_LOGIN_STATUS', false);
+        commit('SET_USER_ID', null);
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
     },
     async checkLoginStatus({ commit }) {
-      const response = await isLoggedIn();
-      commit('SET_LOGIN_STATUS', response.isLoggedIn);
-      if (response.isLoggedIn) {
+      try {
+        const response = await checkLoggedIn();
+        commit('SET_LOGIN_STATUS', response.isLoggedIn);
+        if (response.isLoggedIn) {
+          commit('SET_USER_ID', response.userID);
+        } else {
+          commit('SET_USER_ID', null);
+        }
+      } catch (error) {
+        console.error('Error checking login status:', error);
+      }
+    },
+    async signup({ commit }, userData) {
+      try {
+        console.log(userData)
+        const response = await signupUser(userData);
+        console.log(response)
+        commit('SET_LOGIN_STATUS', true);
         commit('SET_USER_ID', response.userID);
-      } else {
-        commit('SET_USER_ID', null);
+      } catch (error) {
+        console.error('Signup failed:', error);
+        throw new Error('Signup failed. Please check your information and try again.');
       }
     },
   },

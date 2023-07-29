@@ -18,3 +18,7 @@ func NewUserUsecase(userRepository repositories.UserRepository) *UserUsecase {
 func (u *UserUsecase) GetUserFromUsername(username string) (*models.User, error) {
 	return u.UserRepository.GetUserFromUsername(username)
 }
+
+func (u *UserUsecase) CreateUser(user *models.User) (*models.User, error) {
+	return u.UserRepository.CreateUser(user)
+}

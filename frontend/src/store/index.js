@@ -49,9 +49,11 @@ export default createStore({
     },
     async signup({ commit }, userData) {
       try {
-        await signupUser(userData);
+        console.log(userData)
+        const response = await signupUser(userData);
+        console.log(response)
         commit('SET_LOGIN_STATUS', true);
-        commit('SET_USER_ID', userData.userID);
+        commit('SET_USER_ID', response.userID);
       } catch (error) {
         console.error('Signup failed:', error);
         throw new Error('Signup failed. Please check your information and try again.');

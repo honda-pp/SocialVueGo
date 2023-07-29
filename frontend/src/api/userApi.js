@@ -37,9 +37,9 @@ export const checkLoggedIn = async () => {
   }
 };
 
-export const signupUser = async () => {
+export const signupUser = async (userData) => {
   try {
-    const response = await userApi.get(`/signup`);
+    const response = await userApi.post(`/signup`, userData);
     return response.data;
   } catch (error) {
     throw error.response.data;

@@ -64,12 +64,58 @@ func (h *UserHandler) Logout(c *gin.Context) {
 	})
 }
 
-func (h *UserHandler) IsLoggedIn(c *gin.Context) {
+func (h *UserHandler) CheckLoggedIn(c *gin.Context) {
 	session := sessions.Default(c)
 	c.JSON(http.StatusOK, gin.H{
 		"isLoggedIn": session.Get("userID") != nil,
 		"userID":     session.Get("userID"),
 	})
+}
+
+func (h *UserHandler) Signup(c *gin.Context) {
+	var user models.User
+	if err := c.BindJSON(&user); err != nil {
+		logger.LogError(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		return
+	}
+
+	password := c.PostForm("password")
+
+	passwordHash, err := HashPassword(password)
+	if err != nil {
+		logger.LogError("Password hashing failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process the request"})
+		return
+	}
+
+	user.PasswordHash = passwordHash
+
+	newUser, err := h.UserUsecase.CreateUser(&user)
+	if err != nil {
+		logger.LogError("User creation failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create the user"})
+		return
+	}
+
+	session := sessions.Default(c)
+	session.Set("userID", user.ID)
+	session.Save()
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":  "signup successful",
+		"userID":   strconv.Itoa(newUser.ID),
+		"username": newUser.Username,
+	})
+}
+
+func HashPassword(password string) (string, error) {
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+
+	return string(passwordHash), nil
 }
 
 func checkPassword(user *models.User, password string) error {

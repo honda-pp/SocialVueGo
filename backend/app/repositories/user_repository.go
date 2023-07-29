@@ -33,3 +33,13 @@ func (r *UserRepository) GetUserFromUsername(username string) (*models.User, err
 
 	return user, nil
 }
+
+func (r *UserRepository) CreateUser(user *models.User) (*models.User, error) {
+	query := "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id"
+	err := r.db.QueryRow(query, user.Username, user.Email, user.PasswordHash).Scan(&user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}

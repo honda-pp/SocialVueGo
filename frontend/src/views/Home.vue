@@ -1,9 +1,15 @@
 <template>
-  <div>
-    <button v-if="isLoggedIn" @click="logout">Logout</button>
+  <div class="home-container">
+    <p v-if="isLoggedIn">
+      You are currently logged in as {{ userID }}.
+      <button v-if="isLoggedIn" @click="logout">Logout</button>
+    </p>
     <div v-else>
-      <button @click="showLoginPopup">Login</button>
-      <button @click="showSignupPopup">Signup</button>
+      <p>Ready to get started?</p>
+      <div class="cta-buttons">
+        <button @click="showLoginPopup">Login</button>
+        <button @click="showSignupPopup">Signup</button>
+      </div>
     </div>
 
     <teleport to="body">
@@ -48,7 +54,7 @@
 
           <button @click="signup">Signup</button>
 
-          <p v-if="signupErrorMessage" class="error-message">{{ signupErrorMessage }}</p>
+          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
         </div>
       </div>
     </teleport>
@@ -67,11 +73,11 @@ const errorMessage = ref('');
 const newUsername = ref('');
 const email = ref('');
 const newPassword = ref('');
-const signupErrorMessage = ref('');
 
 const store = useStore();
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
+const userID = computed(() => store.state.userID);
 
 const showLoginPopup = () => {
   isLoginPopupVisible.value = true;
@@ -87,7 +93,7 @@ const hideLoginPopup = () => {
 const showSignupPopup = () => {
   isSignupPopupVisible.value = true;
   disableScroll();
-  signupErrorMessage.value = '';
+  errorMessage.value = '';
 };
 
 const hideSignupPopup = () => {
@@ -101,17 +107,16 @@ const login = async () => {
       username: username.value,
       password: password.value,
     };
-    store.dispatch('login', userData);
+    await store.dispatch('login', userData);
     hideLoginPopup();
   } catch (error) {
-    console.error('Login failed:', error);
-    errorMessage.value = 'Login failed. Please check your username and password.';
+    errorMessage.value = error;
   }
 };
 
 const logout = async () => {
   try {
-    store.dispatch('logout');
+    await store.dispatch('logout');
   } catch (error) {
     console.error('Logout failed:', error);
   }
@@ -132,16 +137,51 @@ const signup = async () => {
       email: email.value,
       password: newPassword.value,
     };
-    store.dispatch('signup', userData);
+    await store.dispatch('signup', userData);
     hideSignupPopup();
   } catch (error) {
-    console.error('Signup failed:', error);
-    signupErrorMessage.value = 'Signup failed. Please check your information and try again.';
+    errorMessage.value = error;
   }
 };
 </script>
 
 <style>
+.home-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.cta-buttons {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
 .popup-overlay {
   position: fixed;
   top: 0;

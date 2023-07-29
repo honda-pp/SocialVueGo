@@ -1,32 +1,28 @@
 import { createStore } from 'vuex';
+import { loginUser, logoutUser, isLoggedIn } from '../api/userApi';
 
-const store = createStore({
+export default createStore({
   state: {
     isLoggedIn: false,
-    userID: null,
   },
   mutations: {
-    setLoggedIn(state, loggedIn) {
-      state.isLoggedIn = loggedIn;
-    },
-    setUserID(state, userID) {
-      state.userID = userID;
+    SET_LOGIN_STATUS(state, status) {
+      state.isLoggedIn = status;
     },
   },
   actions: {
-    login({ commit }, userID) {
-      commit('setLoggedIn', true);
-      commit('setUserID', userID);
+    async login({ commit }, userData) {
+      const response = await loginUser(userData);
+      commit('SET_LOGIN_STATUS', true);
+      return response.userID;
     },
-    logout({ commit }) {
-      commit('setLoggedIn', false);
-      commit('setUserID', null);
+    async logout({ commit }) {
+      await logoutUser();
+      commit('SET_LOGIN_STATUS', false);
     },
-  },
-  getters: {
-    isLoggedIn: (state) => state.isLoggedIn,
-    userID: (state) => state.userID,
+    async checkLoginStatus({ commit }) {
+      const response = await isLoggedIn();
+      commit('SET_LOGIN_STATUS', response.isLoggedIn);
+    },
   },
 });
-
-export default store;

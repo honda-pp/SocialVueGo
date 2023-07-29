@@ -27,3 +27,12 @@ export const logoutUser = async () => {
     throw error.response.data;
   }
 };
+
+export const isLoggedIn = async () => {
+  try {
+    const response = await userApi.get(`/isLoggedIn`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

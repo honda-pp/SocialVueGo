@@ -7,7 +7,7 @@
       <div v-if="isLoginPopupVisible" class="popup-overlay">
         <div class="popup-content">
           <button class="close-button" @click="hideLoginPopup">&times;</button>
-          
+
           <div class="input-group">
             <label for="username">Username:</label>
             <input type="text" id="username" v-model="username" />
@@ -30,7 +30,6 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { loginUser, logoutUser } from '../api/userApi';
 
 const isLoginPopupVisible = ref(false);
 const username = ref('');
@@ -56,10 +55,7 @@ const login = async () => {
       username: username.value,
       password: password.value,
     };
-    const response = await loginUser(userData);
-
-    store.dispatch('login', response.userID);
-
+    store.dispatch('login', userData);
     hideLoginPopup();
   } catch (error) {
     console.error('Login failed:', error);
@@ -69,7 +65,6 @@ const login = async () => {
 
 const logout = async () => {
   try {
-    await logoutUser();
     store.dispatch('logout');
   } catch (error) {
     console.error('Logout failed:', error);

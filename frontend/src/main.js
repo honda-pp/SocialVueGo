@@ -8,6 +8,6 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 
-document.title = 'SocialVueGo';
-
-app.mount('#app');
+store.dispatch('checkLoginStatus').then(() => {
+  app.mount('#app');
+});

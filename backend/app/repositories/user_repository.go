@@ -30,7 +30,7 @@ func (r *UserRepository) GetUserFromUsername(user *models.User) error {
 	return err
 }
 
-func (r *UserRepository) GetUsers() ([]*models.User, error) {
+func (r *UserRepository) GetuserList() ([]*models.User, error) {
 	query := "SELECT id, username FROM users order by id desc"
 
 	rows, err := r.db.Query(query)
@@ -39,14 +39,14 @@ func (r *UserRepository) GetUsers() ([]*models.User, error) {
 	}
 	defer rows.Close()
 
-	var users []*models.User
+	var userList []*models.User
 	for rows.Next() {
 		user := &models.User{}
 		err = rows.Scan(&user.ID, &user.Username)
 		if err != nil {
 			return nil, err
 		}
-		users = append(users, user)
+		userList = append(userList, user)
 	}
 
 	err = rows.Err()
@@ -54,7 +54,7 @@ func (r *UserRepository) GetUsers() ([]*models.User, error) {
 		return nil, err
 	}
 
-	return users, nil
+	return userList, nil
 }
 
 func (r *UserRepository) CreateUser(user *models.User) error {

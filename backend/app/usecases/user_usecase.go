@@ -19,8 +19,8 @@ func (u *UserUsecase) GetUserFromUsername(user *models.User) error {
 	return u.UserRepository.GetUserFromUsername(user)
 }
 
-func (u *UserUsecase) GetUsers() ([]*models.User, error) {
-	return u.UserRepository.GetUsers()
+func (u *UserUsecase) GetuserList() ([]*models.User, error) {
+	return u.UserRepository.GetuserList()
 }
 
 func (u *UserUsecase) CreateUser(user *models.User) error {

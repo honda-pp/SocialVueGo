@@ -103,15 +103,15 @@ func (h *UserHandler) Signup(c *gin.Context) {
 	})
 }
 
-func (h *UserHandler) GetUsers(c *gin.Context) {
-	users, err := h.UserUsecase.GetUsers()
+func (h *UserHandler) GetuserList(c *gin.Context) {
+	userList, err := h.UserUsecase.GetuserList()
 	if err != nil {
 		logger.LogError("Failed to get user list: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})
 		return
 	}
 
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, gin.H{"userList": userList})
 }
 
 func HashPassword(user *models.User) error {

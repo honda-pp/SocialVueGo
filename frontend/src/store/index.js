@@ -1,10 +1,11 @@
 import { createStore } from 'vuex';
-import { loginUser, logoutUser, signupUser, checkLoggedIn } from '../api/userApi';
+import { loginUser, logoutUser, signupUser, checkLoggedIn, getUserList } from '../api/userApi';
 
 export default createStore({
   state: {
     isLoggedIn: false,
     userID: null,
+    userList: {},
   },
   mutations: {
     SET_LOGIN_STATUS(state, status) {
@@ -12,6 +13,9 @@ export default createStore({
     },
     SET_USER_ID(state, userID) {
       state.userID = userID;
+    },
+    SET_USER_LIST(state, userList) {
+      state.userList = userList;
     },
   },
   actions: {
@@ -55,6 +59,14 @@ export default createStore({
       } catch (error) {
         console.error('Signup failed:', error);
         throw new Error('Signup failed. ' + error.error);
+      }
+    },
+    async getUserList({ commit }) {
+      try {
+        const response = await getUserList();
+        commit('SET_USER_LIST', response.userList);
+      } catch (error) {
+        console.error('Failed to fetch user list:', error);
       }
     },
   },

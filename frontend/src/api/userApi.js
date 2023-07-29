@@ -45,3 +45,12 @@ export const signupUser = async (userData) => {
     throw error.response.data;
   }
 };
+
+export const getUserList = async () => {
+  try {
+    const response = await userApi.get(`/userList`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

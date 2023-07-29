@@ -22,7 +22,7 @@ export default createStore({
         commit('SET_USER_ID', response.userID);
       } catch (error) {
         console.error('Login failed:', error);
-        throw new Error('Login failed. Please check your username and password.');
+        throw new Error('Login failed. ' + error.error);
       }
     },
     async logout({ commit }) {
@@ -49,14 +49,12 @@ export default createStore({
     },
     async signup({ commit }, userData) {
       try {
-        console.log(userData)
         const response = await signupUser(userData);
-        console.log(response)
         commit('SET_LOGIN_STATUS', true);
         commit('SET_USER_ID', response.userID);
       } catch (error) {
         console.error('Signup failed:', error);
-        throw new Error('Signup failed. Please check your information and try again.');
+        throw new Error('Signup failed. ' + error.error);
       }
     },
   },

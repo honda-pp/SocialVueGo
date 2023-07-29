@@ -23,11 +23,11 @@ func NewUserHandler(userUsecase usecases.UserUsecase) *UserHandler {
 }
 
 func (h *UserHandler) Login(c *gin.Context) {
-	const credentialsError = "Login failed. Please check your credentials and try again."
+	const credentialsError = "Please check your credentials and try again."
 	var user models.User
 	if err := c.BindJSON(&user); err != nil {
 		logger.LogError(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload."})
 		return
 	}
 
@@ -76,19 +76,19 @@ func (h *UserHandler) Signup(c *gin.Context) {
 	var user models.User
 	if err := c.BindJSON(&user); err != nil {
 		logger.LogError(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload."})
 		return
 	}
 
 	if err := HashPassword(&user); err != nil {
 		logger.LogError("Password hashing failed: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process the request"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process the request."})
 		return
 	}
 
 	if err := h.UserUsecase.CreateUser(&user); err != nil {
 		logger.LogError("User creation failed: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create the user"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create the user."})
 		return
 	}
 

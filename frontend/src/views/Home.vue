@@ -54,7 +54,7 @@
 
           <button @click="signup">Signup</button>
 
-          <p v-if="signupErrorMessage" class="error-message">{{ signupErrorMessage }}</p>
+          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
         </div>
       </div>
     </teleport>
@@ -73,7 +73,6 @@ const errorMessage = ref('');
 const newUsername = ref('');
 const email = ref('');
 const newPassword = ref('');
-const signupErrorMessage = ref('');
 
 const store = useStore();
 
@@ -94,7 +93,7 @@ const hideLoginPopup = () => {
 const showSignupPopup = () => {
   isSignupPopupVisible.value = true;
   disableScroll();
-  signupErrorMessage.value = '';
+  errorMessage.value = '';
 };
 
 const hideSignupPopup = () => {
@@ -108,17 +107,16 @@ const login = async () => {
       username: username.value,
       password: password.value,
     };
-    store.dispatch('login', userData);
+    await store.dispatch('login', userData);
     hideLoginPopup();
   } catch (error) {
-    console.error('Login failed:', error);
-    errorMessage.value = 'Login failed. Please check your username and password.';
+    errorMessage.value = error;
   }
 };
 
 const logout = async () => {
   try {
-    store.dispatch('logout');
+    await store.dispatch('logout');
   } catch (error) {
     console.error('Logout failed:', error);
   }
@@ -139,11 +137,10 @@ const signup = async () => {
       email: email.value,
       password: newPassword.value,
     };
-    store.dispatch('signup', userData);
+    await store.dispatch('signup', userData);
     hideSignupPopup();
   } catch (error) {
-    console.error('Signup failed:', error);
-    signupErrorMessage.value = 'Signup failed. Please check your information and try again.';
+    errorMessage.value = error;
   }
 };
 </script>

@@ -17,30 +17,22 @@ func NewUserRepository(db *sql.DB) interfaces.UserRepository {
 	}
 }
 
-func (r *UserRepository) GetUserFromUsername(username string) (*models.User, error) {
-	user := &models.User{}
-	query := "SELECT id, username, password_hash FROM users WHERE username = $1"
+func (r *UserRepository) GetUserFromUsername(user *models.User) error {
+	query := "SELECT id, password_hash FROM users WHERE username = $1"
 
-	row := r.db.QueryRow(query, username)
+	row := r.db.QueryRow(query, user.Username)
 
 	err := row.Scan(
 		&user.ID,
-		&user.Username,
 		&user.PasswordHash,
 	)
-	if err != nil {
-		return nil, err
-	}
 
-	return user, nil
+	return err
 }
 
-func (r *UserRepository) CreateUser(user *models.User) (*models.User, error) {
+func (r *UserRepository) CreateUser(user *models.User) error {
 	query := "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id"
 	err := r.db.QueryRow(query, user.Username, user.Email, user.PasswordHash).Scan(&user.ID)
-	if err != nil {
-		return nil, err
-	}
 
-	return user, nil
+	return err
 }

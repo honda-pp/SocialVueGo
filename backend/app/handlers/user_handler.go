@@ -24,21 +24,21 @@ func NewUserHandler(userUsecase usecases.UserUsecase) *UserHandler {
 
 func (h *UserHandler) Login(c *gin.Context) {
 	const credentialsError = "Login failed. Please check your credentials and try again."
-	var login models.Login
-	if err := c.BindJSON(&login); err != nil {
+	var user models.User
+	if err := c.BindJSON(&user); err != nil {
 		logger.LogError(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
 
-	user, err := h.UserUsecase.GetUserFromUsername(login.Username)
-	if err != nil {
+	if err := h.UserUsecase.GetUserFromUsername(&user); err != nil {
 		logger.LogError("Login failed: " + err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{"error": credentialsError})
 		return
 	}
 
-	if err = checkPassword(user, login.Password); err != nil {
+	if err := checkPassword(&user); err != nil {
+		logger.LogError(err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{"error": credentialsError})
 		return
 	}
@@ -80,44 +80,39 @@ func (h *UserHandler) Signup(c *gin.Context) {
 		return
 	}
 
-	password := c.PostForm("password")
-
-	passwordHash, err := HashPassword(password)
-	if err != nil {
+	if err := HashPassword(&user); err != nil {
 		logger.LogError("Password hashing failed: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process the request"})
 		return
 	}
 
-	user.PasswordHash = passwordHash
-
-	newUser, err := h.UserUsecase.CreateUser(&user)
-	if err != nil {
+	if err := h.UserUsecase.CreateUser(&user); err != nil {
 		logger.LogError("User creation failed: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create the user"})
 		return
 	}
 
 	session := sessions.Default(c)
-	session.Set("userID", newUser.ID)
+	session.Set("userID", user.ID)
 	session.Save()
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "signup successful",
-		"userID":   strconv.Itoa(newUser.ID),
-		"username": newUser.Username,
+		"userID":   strconv.Itoa(user.ID),
+		"username": user.Username,
 	})
 }
 
-func HashPassword(password string) (string, error) {
-	passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+func HashPassword(user *models.User) error {
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", err
+		return err
 	}
 
-	return string(passwordHash), nil
+	user.PasswordHash = string(passwordHash)
+	return nil
 }
 
-func checkPassword(user *models.User, password string) error {
-	return bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
+func checkPassword(user *models.User) error {
+	return bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(user.Password))
 }

@@ -6,4 +6,6 @@ const app = createApp(App);
 
 app.use(router);
 
+document.title = 'SocialVueGo'
+
 app.mount('#app');

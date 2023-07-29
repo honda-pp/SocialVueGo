@@ -1,4 +1,4 @@
-# SocialVueGo
+# frontend
 
 ## Project setup
 ```

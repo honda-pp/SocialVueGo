@@ -1,9 +1,15 @@
 <template>
-  <div>
-    <button v-if="isLoggedIn" @click="logout">Logout</button>
+  <div class="home-container">
+    <p v-if="isLoggedIn">
+      You are currently logged in as {{ userID }}.
+      <button v-if="isLoggedIn" @click="logout">Logout</button>
+    </p>
     <div v-else>
-      <button @click="showLoginPopup">Login</button>
-      <button @click="showSignupPopup">Signup</button>
+      <p>Ready to get started?</p>
+      <div class="cta-buttons">
+        <button @click="showLoginPopup">Login</button>
+        <button @click="showSignupPopup">Signup</button>
+      </div>
     </div>
 
     <teleport to="body">
@@ -72,6 +78,7 @@ const signupErrorMessage = ref('');
 const store = useStore();
 
 const isLoggedIn = computed(() => store.state.isLoggedIn);
+const userID = computed(() => store.state.userID);
 
 const showLoginPopup = () => {
   isLoginPopupVisible.value = true;
@@ -142,6 +149,42 @@ const signup = async () => {
 </script>
 
 <style>
+.home-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.cta-buttons {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
 .popup-overlay {
   position: fixed;
   top: 0;

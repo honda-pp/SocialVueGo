@@ -30,7 +30,7 @@ func (r *UserRepository) GetUserFromUsername(user *models.User) error {
 	return err
 }
 
-func (r *UserRepository) GetuserList() ([]*models.User, error) {
+func (r *UserRepository) GetUserList() ([]*models.User, error) {
 	query := "SELECT id, username FROM users order by id desc"
 
 	rows, err := r.db.Query(query)

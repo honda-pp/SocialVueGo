@@ -30,6 +30,33 @@ func (r *UserRepository) GetUserFromUsername(user *models.User) error {
 	return err
 }
 
+func (r *UserRepository) GetUsers() ([]*models.User, error) {
+	query := "SELECT id, username FROM users order by id desc"
+
+	rows, err := r.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []*models.User
+	for rows.Next() {
+		user := &models.User{}
+		err = rows.Scan(&user.ID, &user.Username)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
 func (r *UserRepository) CreateUser(user *models.User) error {
 	query := "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id"
 	err := r.db.QueryRow(query, user.Username, user.Email, user.PasswordHash).Scan(&user.ID)

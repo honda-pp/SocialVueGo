@@ -38,6 +38,7 @@ func NewApplication(db *sql.DB) *Application {
 		api.POST("/logout", userHandler.Logout)
 		api.POST("/signup", userHandler.Signup)
 		api.GET("/checkLoggedIn", userHandler.CheckLoggedIn)
+		api.GET("/users", userHandler.GetUsers)
 	}
 
 	return &Application{

@@ -103,6 +103,17 @@ func (h *UserHandler) Signup(c *gin.Context) {
 	})
 }
 
+func (h *UserHandler) GetUsers(c *gin.Context) {
+	users, err := h.UserUsecase.GetUsers()
+	if err != nil {
+		logger.LogError("Failed to get user list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})
+		return
+	}
+
+	c.JSON(http.StatusOK, users)
+}
+
 func HashPassword(user *models.User) error {
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {

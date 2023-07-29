@@ -44,18 +44,29 @@ func (h *UserHandler) Login(c *gin.Context) {
 	}
 
 	session := sessions.Default(c)
-	session.Set("userId", user.ID)
+	session.Set("userID", user.ID)
 	session.Save()
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "login successful",
-		"id":       strconv.Itoa(user.ID),
+		"userID":   strconv.Itoa(user.ID),
 		"username": user.Username,
 	})
 }
 
 func (h *UserHandler) Logout(c *gin.Context) {
-	logger.LogInfo("logout")
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "logout successful",
+	})
+}
+
+func (h *UserHandler) IsLoggedIn(c *gin.Context) {
+	session := sessions.Default(c)
+	c.JSON(http.StatusOK, gin.H{"isLoggedIn": session.Get("userID") != nil})
 }
 
 func checkPassword(user *models.User, password string) error {

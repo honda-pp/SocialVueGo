@@ -41,6 +41,7 @@ func main() {
 	{
 		api.POST("/login", userHandler.Login)
 		api.POST("/logout", userHandler.Logout)
+		api.GET("/isLoggedIn", userHandler.IsLoggedIn)
 	}
 
 	err = router.Run(":8080")

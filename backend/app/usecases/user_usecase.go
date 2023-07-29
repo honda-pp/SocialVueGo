@@ -1,15 +1,15 @@
 package usecases
 
 import (
+	"github.com/honda-pp/SocialVueGo/backend/app/interfaces"
 	"github.com/honda-pp/SocialVueGo/backend/app/models"
-	"github.com/honda-pp/SocialVueGo/backend/app/repositories"
 )
 
 type UserUsecase struct {
-	UserRepository repositories.UserRepository
+	UserRepository interfaces.UserRepository
 }
 
-func NewUserUsecase(userRepository repositories.UserRepository) *UserUsecase {
+func NewUserUsecase(userRepository interfaces.UserRepository) *UserUsecase {
 	return &UserUsecase{
 		UserRepository: userRepository,
 	}

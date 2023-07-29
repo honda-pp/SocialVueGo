@@ -3,6 +3,7 @@ package repositories
 import (
 	"database/sql"
 
+	"github.com/honda-pp/SocialVueGo/backend/app/interfaces"
 	"github.com/honda-pp/SocialVueGo/backend/app/models"
 )
 
@@ -10,7 +11,7 @@ type UserRepository struct {
 	db *sql.DB
 }
 
-func NewUserRepository(db *sql.DB) *UserRepository {
+func NewUserRepository(db *sql.DB) interfaces.UserRepository {
 	return &UserRepository{
 		db: db,
 	}

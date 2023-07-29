@@ -1,6 +1,8 @@
 package app
 
 import (
+	"database/sql"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -8,24 +10,15 @@ import (
 	"github.com/honda-pp/SocialVueGo/backend/app/handlers"
 	"github.com/honda-pp/SocialVueGo/backend/app/repositories"
 	"github.com/honda-pp/SocialVueGo/backend/app/usecases"
-	"github.com/honda-pp/SocialVueGo/backend/infrastructure/database"
-	"github.com/honda-pp/SocialVueGo/backend/infrastructure/logger"
 )
 
 type Application struct {
 	Router *gin.Engine
 }
 
-func NewApplication() *Application {
-	log := logger.InitLogger()
-	db, err := database.InitDB()
-	if err != nil {
-		log.Fatalf("Failed to initialize database: %v", err)
-	}
-	defer db.Close()
-
+func NewApplication(db *sql.DB) *Application {
 	userRepo := repositories.NewUserRepository(db)
-	userUsecase := usecases.NewUserUsecase(*userRepo)
+	userUsecase := usecases.NewUserUsecase(userRepo)
 	userHandler := handlers.NewUserHandler(*userUsecase)
 
 	router := gin.Default()

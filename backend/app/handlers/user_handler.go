@@ -99,7 +99,7 @@ func (h *UserHandler) Signup(c *gin.Context) {
 	}
 
 	session := sessions.Default(c)
-	session.Set("userID", user.ID)
+	session.Set("userID", newUser.ID)
 	session.Save()
 
 	c.JSON(http.StatusOK, gin.H{

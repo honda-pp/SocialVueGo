@@ -1,10 +1,13 @@
 <template>
   <div>
-    <button @click="showLoginPopup">Login</button>
+    <button v-if="store.state.isLoggedIn" @click="logout">Logout</button>
+    <button v-else @click="showLoginPopup">Login</button>
 
     <teleport to="body">
       <div v-if="isLoginPopupVisible" class="popup-overlay">
         <div class="popup-content">
+          <button class="close-button" @click="hideLoginPopup">&times;</button>
+          
           <div class="input-group">
             <label for="username">Username:</label>
             <input type="text" id="username" v-model="username" />
@@ -26,12 +29,15 @@
 
 <script setup>
 import { ref } from 'vue';
-import { loginUser } from '../api/userApi';
+import { useStore } from 'vuex';
+import { loginUser, logoutUser } from '../api/userApi';
 
 const isLoginPopupVisible = ref(false);
 const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
+
+const store = useStore();
 
 const showLoginPopup = () => {
   isLoginPopupVisible.value = true;
@@ -51,11 +57,22 @@ const login = async () => {
       password: password.value,
     };
     const response = await loginUser(userData);
-    console.log('Login successful:', response);
+
+    store.dispatch('login', response.userID);
+
     hideLoginPopup();
   } catch (error) {
     console.error('Login failed:', error);
     errorMessage.value = 'Login failed. Please check your username and password.';
+  }
+};
+
+const logout = async () => {
+  try {
+    await logoutUser();
+    store.dispatch('logout');
+  } catch (error) {
+    console.error('Logout failed:', error);
   }
 };
 
@@ -83,9 +100,20 @@ const enableScroll = () => {
 }
 
 .popup-content {
+  position: relative;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
 }
 
 .input-group {

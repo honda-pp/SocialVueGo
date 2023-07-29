@@ -40,6 +40,7 @@ func main() {
 	api := router.Group("/api")
 	{
 		api.POST("/login", userHandler.Login)
+		api.POST("/logout", userHandler.Logout)
 	}
 
 	err = router.Run(":8080")

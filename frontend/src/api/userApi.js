@@ -17,3 +17,12 @@ export const loginUser = async (userData) => {
     throw error.response.data;
   }
 };
+
+export const logoutUser = async () => {
+  try {
+    const response = await userApi.post(`/logout`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

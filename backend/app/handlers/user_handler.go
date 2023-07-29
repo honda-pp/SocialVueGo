@@ -54,6 +54,10 @@ func (h *UserHandler) Login(c *gin.Context) {
 	})
 }
 
+func (h *UserHandler) Logout(c *gin.Context) {
+	logger.LogInfo("logout")
+}
+
 func checkPassword(user *models.User, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
 }

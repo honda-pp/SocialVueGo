@@ -2,7 +2,8 @@
   <div class="home-container">
     <p v-if="isLoggedIn">
       You are currently logged in as {{ userID }}.
-      <button v-if="isLoggedIn" @click="logout">Logout</button>
+      <router-link to="/user-list">User List</router-link>
+      <button @click="logout">Logout</button>
     </p>
     <div v-else>
       <p>Ready to get started?</p>
@@ -153,18 +154,9 @@ const signup = async () => {
   text-align: center;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
 p {
   font-size: 1.2rem;
   margin-bottom: 10px;
-}
-
-.cta-buttons {
-  margin-top: 20px;
 }
 
 button {
@@ -180,6 +172,18 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.cta-buttons {
+  margin-top: 20px;
+}
+
+.router-link {
+  display: block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .popup-overlay {

@@ -21,7 +21,7 @@ export default createStore({
   actions: {
     async login({ commit }, userData) {
       try {
-        const response = loginUser(userData);
+        const response = await loginUser(userData);
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userID', response.userID);
         commit('SET_LOGIN_STATUS', true);
@@ -59,7 +59,7 @@ export default createStore({
     },
     async signup({ commit }, userData) {
       try {
-        const response = signupUser(userData);
+        const response = await signupUser(userData);
         commit('SET_LOGIN_STATUS', true);
         localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userID', response.userID);

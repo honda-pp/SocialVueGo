@@ -129,6 +129,11 @@ func (h *UserHandler) FollowUser(c *gin.Context) {
 		return
 	}
 
+	if userID.(int) == followingID {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "You cannot follow yourself."})
+		return
+	}
+
 	if err := h.UserUsecase.FollowUser(userID.(int), followingID); err != nil {
 		logger.LogError("Failed to follow user: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to follow user."})
@@ -197,6 +202,10 @@ func (h *UserHandler) GetFollowingIDs(c *gin.Context) {
 		return
 	}
 
+	if followingIDs == nil {
+		followingIDs = []int{}
+	}
+
 	c.JSON(http.StatusOK, gin.H{"followingIDs": followingIDs})
 }
 
@@ -219,6 +228,10 @@ func (h *UserHandler) GetFollowerIDs(c *gin.Context) {
 		logger.LogError("Failed to get follower list: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get follower list."})
 		return
+	}
+
+	if followerIDs == nil {
+		followerIDs = []int{}
 	}
 
 	c.JSON(http.StatusOK, gin.H{"followerIDs": followerIDs})

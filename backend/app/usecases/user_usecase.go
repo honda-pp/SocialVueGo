@@ -26,38 +26,3 @@ func (u *UserUsecase) GetUserList() ([]*models.User, error) {
 func (u *UserUsecase) CreateUser(user *models.User) error {
 	return u.UserRepository.CreateUser(user)
 }
-
-func (u *UserUsecase) FollowUser(userID, followingID int) error {
-	// Check if the follower and user exist
-	/*
-		WIP
-	*/
-
-	// Check if the follower is not already following the user
-	/*
-		WIP
-	*/
-
-	return u.UserRepository.FollowUser(userID, followingID)
-}
-
-func (u *UserUsecase) UnfollowUser(userID, followingID int) error {
-	// Check if the follower and user exist
-	/*
-		WIP
-	*/
-
-	// Check if the follower is currently following the user
-	/*
-		WIP
-	*/
-
-	return u.UserRepository.UnfollowUser(userID, followingID)
-}
-
-func (u *UserUsecase) GetFollowingIDs(userID int) ([]int, error) {
-	return u.UserRepository.GetFollowingIDs(userID)
-}
-func (u *UserUsecase) GetFollowerIDs(userID int) ([]int, error) {
-	return u.UserRepository.GetFollowerIDs(userID)
-}

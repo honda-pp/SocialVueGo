@@ -6,8 +6,4 @@ type UserRepository interface {
 	GetUserFromUsername(user *models.User) error
 	CreateUser(user *models.User) error
 	GetUserList() ([]*models.User, error)
-	FollowUser(userID, followingID int) error
-	UnfollowUser(userID, followingID int) error
-	GetFollowingIDs(userID int) ([]int, error)
-	GetFollowerIDs(userID int) ([]int, error)
 }

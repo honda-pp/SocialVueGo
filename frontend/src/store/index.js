@@ -1,11 +1,11 @@
 import { createStore } from 'vuex';
-import { loginUser, logoutUser, signupUser, checkLoggedIn, getUserList } from '../api/userApi';
+import { loginUser, logoutUser, signupUser, checkLoggedIn, getUserList, followUser, unfollowUser } from '../api/userApi';
 
 export default createStore({
   state: {
     isLoggedIn: false,
     userID: null,
-    userList: {},
+    userList: [],
   },
   mutations: {
     SET_LOGIN_STATUS(state, status) {
@@ -16,6 +16,12 @@ export default createStore({
     },
     SET_USER_LIST(state, userList) {
       state.userList = userList;
+    },
+    UPDATE_FOLLOW_STATUS(state, { userId, followed }) {
+      const user = state.userList.find((user) => user.id === userId);
+      if (user) {
+        user.followed = followed;
+      }
     },
   },
   actions: {
@@ -67,6 +73,22 @@ export default createStore({
         commit('SET_USER_LIST', response.userList);
       } catch (error) {
         console.error('Failed to fetch user list:', error);
+      }
+    },
+    async followUser({ commit }, userId) {
+      try {
+        await followUser(userId);
+        commit('UPDATE_FOLLOW_STATUS', { userId, followed: true });
+      } catch (error) {
+        console.error('Failed to follow user:', error);
+      }
+    },
+    async unfollowUser({ commit }, userId) {
+      try {
+        await unfollowUser(userId);
+        commit('UPDATE_FOLLOW_STATUS', { userId, followed: false });
+      } catch (error) {
+        console.error('Failed to unfollow user:', error);
       }
     },
   },

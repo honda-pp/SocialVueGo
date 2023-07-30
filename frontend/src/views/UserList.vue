@@ -3,7 +3,9 @@
     <h1>User List</h1>
     <ul>
       <li v-for="user in userList" :key="user.id">
-        {{ user.username }}
+        <span>{{ user.username }}</span>
+        <button @click="followUser(user.id)" v-if="!user.followed">Follow</button>
+        <button @click="unfollowUser(user.id)" v-else>Unfollow</button>
       </li>
     </ul>
   </div>
@@ -24,6 +26,30 @@ onMounted(async () => {
     console.error('Failed to fetch user list:', error);
   }
 });
+
+const followUser = async (userId) => {
+  try {
+    await store.dispatch('followUser', userId);
+    const userIndex = userList.value.findIndex((user) => user.id === userId);
+    if (userIndex !== -1) {
+      userList.value[userIndex].followed = true;
+    }
+  } catch (error) {
+    console.error('Failed to follow user:', error);
+  }
+};
+
+const unfollowUser = async (userId) => {
+  try {
+    await store.dispatch('unfollowUser', userId);
+    const userIndex = userList.value.findIndex((user) => user.id === userId);
+    if (userIndex !== -1) {
+      userList.value[userIndex].followed = false;
+    }
+  } catch (error) {
+    console.error('Failed to unfollow user:', error);
+  }
+};
 </script>
 
 <style>

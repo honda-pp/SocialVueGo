@@ -63,3 +63,21 @@ func (r *UserRepository) CreateUser(user *models.User) error {
 
 	return err
 }
+
+func (u *UserRepository) FollowUser(userID, followingID int) error {
+	query := "INSERT INTO follow (follower_id, following_id) VALUES ($1, $2)"
+	_, err := u.db.Exec(query, userID, followingID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (u *UserRepository) UnfollowUser(userID, followingID int) error {
+	query := "DELETE FROM follow WHERE follower_id = $1 AND following_id = $2"
+	_, err := u.db.Exec(query, userID, followingID)
+	if err != nil {
+		return err
+	}
+	return nil
+}

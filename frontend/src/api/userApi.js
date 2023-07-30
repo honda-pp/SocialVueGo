@@ -54,3 +54,21 @@ export const getUserList = async () => {
     throw error.response.data;
   }
 };
+
+export const followUser = async (userId) => {
+  try {
+    const response = await userApi.post(`/follow/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const unfollowUser = async (userId) => {
+  try {
+    const response = await userApi.post(`/unfollow/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

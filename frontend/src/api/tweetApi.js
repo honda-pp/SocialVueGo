@@ -18,3 +18,12 @@ export const getTweetList = async () => {
     throw error.response.data;
   }
 };
+
+export const createTweet = async (tweet) => {
+  try {
+    const response = await tweetApi.post(`/createTweet`, tweet);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

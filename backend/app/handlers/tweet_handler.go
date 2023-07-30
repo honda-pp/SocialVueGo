@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/honda-pp/SocialVueGo/backend/app/models"
 	"github.com/honda-pp/SocialVueGo/backend/app/usecases"
@@ -37,6 +38,9 @@ func (h *TweetHandler) CreateTweet(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
+
+	session := sessions.Default(c)
+	tweet.UserID = session.Get("userID").(int)
 
 	if err := h.TweetUsecase.CreateTweet(&tweet); err != nil {
 		logger.LogError("Failed to create tweet: " + err.Error())

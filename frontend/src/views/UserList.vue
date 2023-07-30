@@ -6,6 +6,7 @@
         <span>{{ user.username }}</span>
         <button @click="follow(user.id)" v-if="!user.followed">Follow</button>
         <button @click="unfollow(user.id)" v-else>Unfollow</button>
+        <span class="followed-label" v-if="user.followedByLoggedInUser">Followed</span>
       </li>
     </ul>
   </div>
@@ -13,16 +14,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { followUser, unfollowUser, getUserList, getFollowingIDs } from '../api/userApi';
+import { followUser, unfollowUser, getUserList, getFollowingIDs, getFollowerIDs } from '../api/userApi';
 
 const userList = ref([]);
 
 onMounted(async () => {
   try {
-    await fetchUserList();
-    await fetchFollowingUsers();
+    await Promise.all([fetchUserList(), fetchFollowingUsers(), fetchFollowers()]);
   } catch (error) {
-    console.error('Failed to fetch user list:', error);
+    console.error('Error fetching data:', error);
   }
 });
 
@@ -44,6 +44,18 @@ const fetchFollowingUsers = async () => {
     });
   } catch (error) {
     console.error('Failed to fetch following users:', error);
+  }
+};
+
+const fetchFollowers = async () => {
+  try {
+    const response = await getFollowerIDs();
+    const followerIDs = response.followerIDs;
+    userList.value.forEach((user) => {
+      user.followedByLoggedInUser = followerIDs.includes(user.id);
+    });
+  } catch (error) {
+    console.error('Failed to fetch followers:', error);
   }
 };
 
@@ -92,5 +104,14 @@ ul {
 li {
   font-size: 1.2rem;
   margin-bottom: 10px;
+}
+
+button {
+  margin-right: 10px;
+}
+
+.followed-label {
+  color: green;
+  font-weight: bold;
 }
 </style>

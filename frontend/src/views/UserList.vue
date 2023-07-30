@@ -4,9 +4,11 @@
     <ul>
       <li v-for="user in userList" :key="user.id">
         <span>{{ user.username }}</span>
-        <button @click="follow(user.id)" v-if="!user.followed">Follow</button>
-        <button @click="unfollow(user.id)" v-else>Unfollow</button>
-        <span class="followed-label" v-if="user.followedByLoggedInUser">Followed</span>
+        <button @click="follow(user.id)" v-if="!user.followed && !isLoggedInUser(user.id)">Follow</button>
+        <button @click="unfollow(user.id)" v-else-if="user.followed && !isLoggedInUser(user.id)">Unfollow</button>
+        <span class="followed-label" v-if="user.followedByLoggedInUser || isLoggedInUser(user.id)">
+          {{ isLoggedInUser(user.id) ? 'You' : 'Followed' }}
+        </span>
       </li>
     </ul>
   </div>
@@ -17,6 +19,7 @@ import { ref, onMounted } from 'vue';
 import { followUser, unfollowUser, getUserList, getFollowingIDs, getFollowerIDs } from '../api/userApi';
 
 const userList = ref([]);
+const loggedInUserId = parseInt(localStorage.getItem('userID'));
 
 onMounted(async () => {
   try {
@@ -81,6 +84,10 @@ const unfollow = async (userId) => {
   } catch (error) {
     console.error('Failed to unfollow user:', error);
   }
+};
+
+const isLoggedInUser = (userId) => {
+  return loggedInUserId === userId;
 };
 </script>
 

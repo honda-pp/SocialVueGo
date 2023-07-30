@@ -129,6 +129,11 @@ func (h *UserHandler) FollowUser(c *gin.Context) {
 		return
 	}
 
+	if userID.(int) == followingID {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "You cannot follow yourself."})
+		return
+	}
+
 	if err := h.UserUsecase.FollowUser(userID.(int), followingID); err != nil {
 		logger.LogError("Failed to follow user: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to follow user."})

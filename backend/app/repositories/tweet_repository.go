@@ -48,3 +48,9 @@ func (r *TweetRepository) GetTweetList() ([]*models.Tweet, error) {
 
 	return tweetList, nil
 }
+
+func (r *TweetRepository) CreateTweet(tweet *models.Tweet) error {
+	query := "INSERT INTO tweet (content, user_id) VALUES ($1, $2) RETURNING tweet_id"
+	err := r.db.QueryRow(query, tweet.Content, tweet.UserID).Scan(&tweet.ID)
+	return err
+}

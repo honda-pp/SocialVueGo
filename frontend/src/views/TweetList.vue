@@ -4,7 +4,7 @@
     <ul>
       <li v-for="tweet in tweetList" :key="tweet.tweet_id">
         <span>{{ tweet.content }}</span>
-        <span>{{ tweet.created_at }}</span>
+        <span>{{ tweet.createdAt }}</span>
         <span>{{ tweet.username }}</span>
       </li>
     </ul>

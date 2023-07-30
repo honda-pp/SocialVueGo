@@ -18,3 +18,7 @@ func NewTweetUsecase(tweetRepository interfaces.TweetRepository) *TweetUsecase {
 func (u *TweetUsecase) GetTweetList() ([]*models.Tweet, error) {
 	return u.TweetRepository.GetTweetList()
 }
+
+func (u *TweetUsecase) CreateTweet(tweet *models.Tweet) error {
+	return u.TweetRepository.CreateTweet(tweet)
+}

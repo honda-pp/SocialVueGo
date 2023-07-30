@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/honda-pp/SocialVueGo/backend/app/models"
 	"github.com/honda-pp/SocialVueGo/backend/app/usecases"
 	"github.com/honda-pp/SocialVueGo/backend/infrastructure/logger"
 )
@@ -27,4 +28,21 @@ func (h *TweetHandler) GetTweetList(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"tweetList": tweetList})
+}
+
+func (h *TweetHandler) CreateTweet(c *gin.Context) {
+	var tweet models.Tweet
+	if err := c.ShouldBindJSON(&tweet); err != nil {
+		logger.LogError("Failed to bind JSON: " + err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		return
+	}
+
+	if err := h.TweetUsecase.CreateTweet(&tweet); err != nil {
+		logger.LogError("Failed to create tweet: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create tweet"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Tweet created successfully", "tweet": tweet})
 }

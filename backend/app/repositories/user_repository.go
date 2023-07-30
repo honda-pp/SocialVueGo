@@ -81,3 +81,55 @@ func (u *UserRepository) UnfollowUser(userID, followingID int) error {
 	}
 	return nil
 }
+
+func (u *UserRepository) GetFollowingIDs(userID int) ([]int, error) {
+	query := "SELECT following_id FROM follow WHERE follower_id = $1"
+	rows, err := u.db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var followingIDs []int
+	for rows.Next() {
+		var followingID int
+		err = rows.Scan(&followingID)
+		if err != nil {
+			return nil, err
+		}
+		followingIDs = append(followingIDs, followingID)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return followingIDs, nil
+}
+
+func (u *UserRepository) GetFollowerIDs(userID int) ([]int, error) {
+	query := "SELECT follower_id FROM follow WHERE following_id = $1"
+	rows, err := u.db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var followerIDs []int
+	for rows.Next() {
+		var followerID int
+		err = rows.Scan(&followerID)
+		if err != nil {
+			return nil, err
+		}
+		followerIDs = append(followerIDs, followerID)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return followerIDs, nil
+}

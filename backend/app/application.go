@@ -41,6 +41,8 @@ func NewApplication(db *sql.DB) *Application {
 		api.GET("/userList", userHandler.GetUserList)
 		api.POST("/follow/:userID", userHandler.FollowUser)
 		api.POST("/unfollow/:userID", userHandler.UnfollowUser)
+		api.GET("/followerIDs", userHandler.GetFollowerIDs)
+		api.GET("/followingIDs", userHandler.GetFollowingIDs)
 	}
 
 	return &Application{

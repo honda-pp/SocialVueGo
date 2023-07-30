@@ -175,3 +175,51 @@ func HashPassword(user *models.User) error {
 func checkPassword(user *models.User) error {
 	return bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(user.Password))
 }
+
+func (h *UserHandler) GetFollowingIDs(c *gin.Context) {
+	session := sessions.Default(c)
+	userID := session.Get("userID")
+	if userID == nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "You must be logged in to get following list."})
+		return
+	}
+
+	userIDInt, ok := userID.(int)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID."})
+		return
+	}
+
+	followingIDs, err := h.UserUsecase.GetFollowingIDs(userIDInt)
+	if err != nil {
+		logger.LogError("Failed to get following list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get following list."})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"followingIDs": followingIDs})
+}
+
+func (h *UserHandler) GetFollowerIDs(c *gin.Context) {
+	session := sessions.Default(c)
+	userID := session.Get("userID")
+	if userID == nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "You must be logged in to get follower list."})
+		return
+	}
+
+	userIDInt, ok := userID.(int)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID."})
+		return
+	}
+
+	followerIDs, err := h.UserUsecase.GetFollowerIDs(userIDInt)
+	if err != nil {
+		logger.LogError("Failed to get follower list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get follower list."})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"followerIDs": followerIDs})
+}

@@ -54,3 +54,10 @@ func (u *UserUsecase) UnfollowUser(userID, followingID int) error {
 
 	return u.UserRepository.UnfollowUser(userID, followingID)
 }
+
+func (u *UserUsecase) GetFollowingIDs(userID int) ([]int, error) {
+	return u.UserRepository.GetFollowingIDs(userID)
+}
+func (u *UserUsecase) GetFollowerIDs(userID int) ([]int, error) {
+	return u.UserRepository.GetFollowerIDs(userID)
+}

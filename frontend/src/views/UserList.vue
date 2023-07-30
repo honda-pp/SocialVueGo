@@ -13,13 +13,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { followUser, unfollowUser, getUserList } from '../api/userApi';
+import { followUser, unfollowUser, getUserList, getFollowingIDs } from '../api/userApi';
 
 const userList = ref([]);
 
 onMounted(async () => {
   try {
     await fetchUserList();
+    await fetchFollowingUsers();
   } catch (error) {
     console.error('Failed to fetch user list:', error);
   }
@@ -31,6 +32,18 @@ const fetchUserList = async () => {
     userList.value = response.userList;
   } catch (error) {
     console.error('Failed to fetch user list:', error);
+  }
+};
+
+const fetchFollowingUsers = async () => {
+  try {
+    const response = await getFollowingIDs();
+    const followingIDs = response.followingIDs;
+    userList.value.forEach((user) => {
+      user.followed = followingIDs.includes(user.id);
+    });
+  } catch (error) {
+    console.error('Failed to fetch following users:', error);
   }
 };
 

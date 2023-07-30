@@ -72,3 +72,21 @@ export const unfollowUser = async (userId) => {
     throw error.response.data;
   }
 };
+
+export const getFollowingIDs = async () => {
+  try {
+    const response = await userApi.get(`/followingIDs`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const getFollowerIDs = async () => {
+  try {
+    const response = await userApi.get(`/followerIDs`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};

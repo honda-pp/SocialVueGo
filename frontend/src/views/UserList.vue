@@ -4,8 +4,8 @@
     <ul>
       <li v-for="user in userList" :key="user.id">
         <span>{{ user.username }}</span>
-        <button @click="followUser(user.id)" v-if="!user.followed">Follow</button>
-        <button @click="unfollowUser(user.id)" v-else>Unfollow</button>
+        <button @click="follow(user.id)" v-if="!user.followed">Follow</button>
+        <button @click="unfollow(user.id)" v-else>Unfollow</button>
       </li>
     </ul>
   </div>
@@ -13,23 +13,30 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { followUser, unfollowUser, getUserList } from '../api/userApi';
 
-const store = useStore();
 const userList = ref([]);
 
 onMounted(async () => {
   try {
-    await store.dispatch('getUserList');
-    userList.value = store.state.userList;
+    await fetchUserList();
   } catch (error) {
     console.error('Failed to fetch user list:', error);
   }
 });
 
-const followUser = async (userId) => {
+const fetchUserList = async () => {
   try {
-    await store.dispatch('followUser', userId);
+    const response = await getUserList();
+    userList.value = response.userList;
+  } catch (error) {
+    console.error('Failed to fetch user list:', error);
+  }
+};
+
+const follow = async (userId) => {
+  try {
+    await followUser(userId);
     const userIndex = userList.value.findIndex((user) => user.id === userId);
     if (userIndex !== -1) {
       userList.value[userIndex].followed = true;
@@ -39,9 +46,9 @@ const followUser = async (userId) => {
   }
 };
 
-const unfollowUser = async (userId) => {
+const unfollow = async (userId) => {
   try {
-    await store.dispatch('unfollowUser', userId);
+    await unfollowUser(userId);
     const userIndex = userList.value.findIndex((user) => user.id === userId);
     if (userIndex !== -1) {
       userList.value[userIndex].followed = false;

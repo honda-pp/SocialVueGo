@@ -1,11 +1,10 @@
 import { createStore } from 'vuex';
-import { loginUser, logoutUser, signupUser, checkLoggedIn, getUserList, followUser, unfollowUser } from '../api/userApi';
+import { loginUser, logoutUser, signupUser, checkLoggedIn } from '../api/userApi';
 
 export default createStore({
   state: {
     isLoggedIn: false,
     userID: null,
-    userList: [],
   },
   mutations: {
     SET_LOGIN_STATUS(state, status) {
@@ -13,15 +12,6 @@ export default createStore({
     },
     SET_USER_ID(state, userID) {
       state.userID = userID;
-    },
-    SET_USER_LIST(state, userList) {
-      state.userList = userList;
-    },
-    UPDATE_FOLLOW_STATUS(state, { userId, followed }) {
-      const user = state.userList.find((user) => user.id === userId);
-      if (user) {
-        user.followed = followed;
-      }
     },
   },
   actions: {
@@ -65,30 +55,6 @@ export default createStore({
       } catch (error) {
         console.error('Signup failed:', error);
         throw new Error('Signup failed. ' + error.error);
-      }
-    },
-    async getUserList({ commit }) {
-      try {
-        const response = await getUserList();
-        commit('SET_USER_LIST', response.userList);
-      } catch (error) {
-        console.error('Failed to fetch user list:', error);
-      }
-    },
-    async followUser({ commit }, userId) {
-      try {
-        await followUser(userId);
-        commit('UPDATE_FOLLOW_STATUS', { userId, followed: true });
-      } catch (error) {
-        console.error('Failed to follow user:', error);
-      }
-    },
-    async unfollowUser({ commit }, userId) {
-      try {
-        await unfollowUser(userId);
-        commit('UPDATE_FOLLOW_STATUS', { userId, followed: false });
-      } catch (error) {
-        console.error('Failed to unfollow user:', error);
       }
     },
   },

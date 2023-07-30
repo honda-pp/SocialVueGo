@@ -43,6 +43,8 @@ const login = async () => {
     };
     await store.dispatch('login', userData);
     closePopup();
+
+    router.push('/');
   } catch (error) {
     errorMessage.value = error;
   }

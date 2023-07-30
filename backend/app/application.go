@@ -21,6 +21,10 @@ func NewApplication(db *sql.DB) *Application {
 	userUsecase := usecases.NewUserUsecase(userRepo)
 	userHandler := handlers.NewUserHandler(*userUsecase)
 
+	tweetRepo := repositories.NewTweetRepository(db)
+	tweetUsecase := usecases.NewTweetUsecase(tweetRepo)
+	tweetHandler := handlers.NewTweetHandler(*tweetUsecase)
+
 	router := gin.Default()
 
 	config := cors.DefaultConfig()
@@ -43,6 +47,7 @@ func NewApplication(db *sql.DB) *Application {
 		api.POST("/unfollow/:userID", userHandler.UnfollowUser)
 		api.GET("/followerIDs", userHandler.GetFollowerIDs)
 		api.GET("/followingIDs", userHandler.GetFollowingIDs)
+		api.GET("/tweetList", tweetHandler.GetTweetList)
 	}
 
 	return &Application{

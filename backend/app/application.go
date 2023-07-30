@@ -21,6 +21,10 @@ func NewApplication(db *sql.DB) *Application {
 	userUsecase := usecases.NewUserUsecase(userRepo)
 	userHandler := handlers.NewUserHandler(*userUsecase)
 
+	followRepo := repositories.NewFollowRepository(db)
+	followUsecase := usecases.NewFollowUsecase(followRepo)
+	followHandler := handlers.NewFollowHandler(*followUsecase)
+
 	tweetRepo := repositories.NewTweetRepository(db)
 	tweetUsecase := usecases.NewTweetUsecase(tweetRepo)
 	tweetHandler := handlers.NewTweetHandler(*tweetUsecase)
@@ -43,10 +47,10 @@ func NewApplication(db *sql.DB) *Application {
 		api.POST("/signup", userHandler.Signup)
 		api.GET("/checkLoggedIn", userHandler.CheckLoggedIn)
 		api.GET("/userList", userHandler.GetUserList)
-		api.POST("/follow/:userID", userHandler.FollowUser)
-		api.POST("/unfollow/:userID", userHandler.UnfollowUser)
-		api.GET("/followerIDs", userHandler.GetFollowerIDs)
-		api.GET("/followingIDs", userHandler.GetFollowingIDs)
+		api.POST("/follow/:userID", followHandler.FollowUser)
+		api.POST("/unfollow/:userID", followHandler.UnfollowUser)
+		api.GET("/followerIDs", followHandler.GetFollowerIDs)
+		api.GET("/followingIDs", followHandler.GetFollowingIDs)
 		api.GET("/tweetList", tweetHandler.GetTweetList)
 		api.POST("/createTweet", tweetHandler.CreateTweet)
 	}

@@ -5,7 +5,7 @@
 1. Clone the repository
 ```bash
 git clone https://github.com/honda-pp/SocialVueGo.git
-cd todo_app
+cd SocialVueGo
 ```
 
 2. Build and start the application using Docker Compose

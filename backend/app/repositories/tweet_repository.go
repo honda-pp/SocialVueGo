@@ -18,7 +18,12 @@ func NewTweetRepository(db *sql.DB) interfaces.TweetRepository {
 }
 
 func (r *TweetRepository) GetTweetList() ([]*models.Tweet, error) {
-	query := "SELECT tweet_id, content, created_at, user_id FROM tweet ORDER BY created_at DESC"
+	query := `
+		SELECT t.tweet_id, t.content, t.created_at, t.user_id, u.username
+		FROM tweet t
+		JOIN users u ON t.user_id = u.id
+		ORDER BY t.created_at DESC
+	`
 
 	rows, err := r.db.Query(query)
 	if err != nil {
@@ -29,7 +34,7 @@ func (r *TweetRepository) GetTweetList() ([]*models.Tweet, error) {
 	var tweetList []*models.Tweet
 	for rows.Next() {
 		tweet := &models.Tweet{}
-		err = rows.Scan(&tweet.ID, &tweet.Content, &tweet.CreatedAt, &tweet.UserID)
+		err = rows.Scan(&tweet.ID, &tweet.Content, &tweet.CreatedAt, &tweet.UserID, &tweet.Username)
 		if err != nil {
 			return nil, err
 		}

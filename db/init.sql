@@ -43,3 +43,9 @@ VALUES ('testuser', 'testuser@example.com', '$2a$10$0dRFAzNNqBzcoB4.xxy2ieNLRBfl
 
 INSERT INTO tweet (content, created_at, user_id)
 VALUES ('This is a sample tweet!', '2023-07-23 12:34:56', 1);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Hello Twitter!', '2023-07-23 13:45:00', 2);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Tweeting from a different user account.', '2023-07-23 15:00:00', 3);

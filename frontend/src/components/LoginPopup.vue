@@ -24,7 +24,6 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { loginUser } from '../api/userApi';
 
 const username = ref('');
 const password = ref('');
@@ -45,13 +44,10 @@ const login = async () => {
       username: username.value,
       password: password.value,
     };
-    const response = await loginUser(userData);
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userID', response.userID);
+    await store.dispatch('login', userData);
     router.push('/')
   } catch (error) {
-    console.error('Login failed:', error);
-    errorMessage.value = 'Login failed. ' + error;
+    errorMessage.value = error;
   }
 };
 </script>

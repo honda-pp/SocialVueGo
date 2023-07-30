@@ -29,7 +29,6 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { signupUser } from '../api/userApi';
 const router = useRouter();
 
 const newUsername = ref('');
@@ -51,13 +50,10 @@ const signup = async () => {
       email: email.value,
       password: newPassword.value,
     };
-    const response = await signupUser(userData);
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userID', response.userID);
+    await store.dispatch('signup', userData);
     router.push('/');
   } catch (error) {
-    console.error('Signup failed:', error);
-    errorMessage.value = 'Signup failed. ' + error.error;
+    errorMessage.value = error;
   }
 };
 </script>

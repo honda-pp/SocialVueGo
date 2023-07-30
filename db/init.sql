@@ -8,21 +8,22 @@ CREATE TABLE users (
 CREATE TABLE tweet (
   tweet_id SERIAL PRIMARY KEY,
   content VARCHAR(280) NOT NULL,
-  created_at TIMESTAMP NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   user_id INTEGER NOT NULL,
   FOREIGN KEY (user_id) REFERENCES "users" (id)
 );
 
 CREATE TABLE follow (
-  follow_id SERIAL PRIMARY KEY,
   follower_id INTEGER NOT NULL,
   following_id INTEGER NOT NULL,
-  FOREIGN KEY (follower_id) REFERENCES "users" (id),
-  FOREIGN KEY (following_id) REFERENCES "users" (id)
+  PRIMARY KEY (follower_id, following_id),
+  FOREIGN KEY (follower_id) REFERENCES users (id),
+  FOREIGN KEY (following_id) REFERENCES users (id)
 );
 
-CREATE TABLE "like" (
-  like_id SERIAL PRIMARY KEY,
+
+CREATE TABLE favorite (
+  favorite_id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL,
   tweet_id INTEGER NOT NULL,
   FOREIGN KEY (user_id) REFERENCES "users" (id),
@@ -42,3 +43,9 @@ VALUES ('testuser', 'testuser@example.com', '$2a$10$0dRFAzNNqBzcoB4.xxy2ieNLRBfl
 
 INSERT INTO tweet (content, created_at, user_id)
 VALUES ('This is a sample tweet!', '2023-07-23 12:34:56', 1);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Hello Twitter!', '2023-07-23 13:45:00', 2);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Tweeting from a different user account.', '2023-07-23 15:00:00', 3);

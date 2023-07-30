@@ -3,6 +3,7 @@
     <p v-if="isLoggedIn">
       You are currently logged in as {{ userID }}.
       <router-link to="/user-list">User List</router-link>
+      <router-link to="/tweet-list">Tweet List</router-link>
       <button @click="logout">Logout</button>
     </p>
     <div v-else>

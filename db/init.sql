@@ -14,15 +14,16 @@ CREATE TABLE tweet (
 );
 
 CREATE TABLE follow (
-  follow_id SERIAL PRIMARY KEY,
   follower_id INTEGER NOT NULL,
   following_id INTEGER NOT NULL,
-  FOREIGN KEY (follower_id) REFERENCES "users" (id),
-  FOREIGN KEY (following_id) REFERENCES "users" (id)
+  PRIMARY KEY (follower_id, following_id),
+  FOREIGN KEY (follower_id) REFERENCES users (id),
+  FOREIGN KEY (following_id) REFERENCES users (id)
 );
 
-CREATE TABLE "like" (
-  like_id SERIAL PRIMARY KEY,
+
+CREATE TABLE favorite (
+  favorite_id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL,
   tweet_id INTEGER NOT NULL,
   FOREIGN KEY (user_id) REFERENCES "users" (id),

@@ -2,10 +2,12 @@
   <div class="tweet-list">
     <h1>Tweet List</h1>
     <ul>
-      <li v-for="tweet in tweetList" :key="tweet.tweet_id">
-        <span>{{ tweet.content }}</span>
-        <span>{{ tweet.createdAt }}</span>
-        <span>{{ tweet.username }}</span>
+      <li v-for="tweet in tweetList" :key="tweet.tweet_id" class="tweet-item">
+        <div class="tweet-content">{{ tweet.content }}</div>
+        <div class="tweet-info">
+          <span class="tweet-username">{{ tweet.username }}</span>
+          <span class="tweet-date">{{ formatDate(tweet.createdAt) }}</span>
+        </div>
       </li>
     </ul>
 
@@ -88,6 +90,16 @@ const disableScroll = () => {
 const enableScroll = () => {
   document.body.style.overflow = 'auto';
 };
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
+};
 </script>
 
 <style>
@@ -95,6 +107,31 @@ const enableScroll = () => {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.tweet-item {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.tweet-content {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.tweet-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tweet-username {
+  font-weight: bold;
+}
+
+.tweet-date {
+  color: #888;
 }
 
 h1 {

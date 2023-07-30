@@ -23,12 +23,16 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { loginUser } from '../api/userApi';
 
 const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
 
 const store = useStore();
+const router = useRouter();
+
 const isVisible = ref(store.state.isLoginPopupVisible);
 
 const closePopup = () => {
@@ -41,12 +45,13 @@ const login = async () => {
       username: username.value,
       password: password.value,
     };
-    await store.dispatch('login', userData);
-    closePopup();
-
-    router.push('/');
+    const response = await loginUser(userData);
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userID', response.userID);
+    router.push('/')
   } catch (error) {
-    errorMessage.value = error;
+    console.error('Login failed:', error);
+    errorMessage.value = 'Login failed. ' + error;
   }
 };
 </script>

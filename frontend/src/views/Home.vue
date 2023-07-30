@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <p v-if="isLoggedIn">
+    <p>
       You are currently logged in as {{ userID }}.
       <router-link to="/user-list">User List</router-link>
       <router-link to="/tweet-list">Tweet List</router-link>
@@ -11,12 +11,8 @@
 
 <script setup>
 import LogoutButton from '../components/LogoutButton.vue';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
 
-const store = useStore();
-
-const userID = computed(() => store.state.userID);
+const userID = localStorage.getItem('userID');
 </script>
 
 <style>

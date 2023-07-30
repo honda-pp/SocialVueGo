@@ -3,7 +3,6 @@ import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import UserList from '../views/UserList.vue';
 import TweetList from '../views/TweetList.vue';
-import store from '../store';
 
 const routes = [
   {
@@ -35,11 +34,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = store.state.isLoggedIn;
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
   if (requiresAuth && !isLoggedIn) {
     next('/login');
+  } else if (!requiresAuth && isLoggedIn) {
+    next('/');
   } else {
     next();
   }

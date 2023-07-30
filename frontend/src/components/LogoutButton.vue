@@ -3,13 +3,17 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { logoutUser } from '../api/userApi';
 
-const store = useStore();
+const router = useRouter();
 
 const logout = async () => {
   try {
-    await store.dispatch('logout');
+    await logoutUser();
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userID');
+    router.push('/login');
   } catch (error) {
     console.error('Logout failed:', error);
   }

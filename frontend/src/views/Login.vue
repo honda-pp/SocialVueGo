@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <div v-if="!isLoggedIn">
+    <div>
       <p>Ready to get started?</p>
       <div class="cta-buttons">
         <button @click="showLoginPopup">Login</button>
@@ -22,8 +22,6 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-
-const isLoggedIn = computed(() => store.state.isLoggedIn);
 
 const isLoginPopupVisible = computed(() => store.state.isLoginPopupVisible);
 const isSignupPopupVisible = computed(() => store.state.isSignupPopupVisible);

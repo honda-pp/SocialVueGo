@@ -5,6 +5,8 @@ export default createStore({
   state: {
     isLoggedIn: false,
     userID: null,
+    isLoginPopupVisible: false,
+    isSignupPopupVisible: false,
   },
   mutations: {
     SET_LOGIN_STATUS(state, status) {
@@ -12,6 +14,12 @@ export default createStore({
     },
     SET_USER_ID(state, userID) {
       state.userID = userID;
+    },
+    SET_LOGIN_POPUP_VISIBILITY(state, isVisible) {
+      state.isLoginPopupVisible = isVisible;
+    },
+    SET_SIGNUP_POPUP_VISIBILITY(state, isVisible) {
+      state.isSignupPopupVisible = isVisible;
     },
   },
   actions: {

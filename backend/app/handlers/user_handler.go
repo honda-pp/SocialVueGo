@@ -202,6 +202,10 @@ func (h *UserHandler) GetFollowingIDs(c *gin.Context) {
 		return
 	}
 
+	if followingIDs == nil {
+		followingIDs = []int{}
+	}
+
 	c.JSON(http.StatusOK, gin.H{"followingIDs": followingIDs})
 }
 
@@ -224,6 +228,10 @@ func (h *UserHandler) GetFollowerIDs(c *gin.Context) {
 		logger.LogError("Failed to get follower list: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get follower list."})
 		return
+	}
+
+	if followerIDs == nil {
+		followerIDs = []int{}
 	}
 
 	c.JSON(http.StatusOK, gin.H{"followerIDs": followerIDs})

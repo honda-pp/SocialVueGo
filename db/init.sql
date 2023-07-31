@@ -39,13 +39,51 @@ CREATE TABLE retweet (
 );
 
 INSERT INTO users (username, email, password_hash)
-VALUES ('testuser', 'testuser@example.com', '$2a$10$0dRFAzNNqBzcoB4.xxy2ieNLRBflO6AeVsl0TXmCSbhd/XHt4WvIS');
+VALUES ('testuser', 'testuser@example.com', '$2a$10$FjMTsB34.Pw.Jn7z3FMis.JzgMac8y2UV83X5xpxCsN1JSnbnjF6i');
+
+INSERT INTO users (username, email, password_hash)
+VALUES ('user1', 'user1@example.com', '$2a$10$1IbewfZwgFNMJiU6D4KXgeL72uMctFaDRkouNhxHdFJddJ2Fx6Dd2');
+
+INSERT INTO users (username, email, password_hash)
+VALUES ('user2', 'user2@example.com', '$2a$10$FzWZxcRDBfWJZCfBN9BQ6.Yvjl98B1mdtv7M7CbrW9kQZVpfrK.E2');
+
+INSERT INTO users (username, email, password_hash)
+VALUES ('user3', 'user3@example.com', '$2a$10$BO95bE0G17LNsDeOKgOxEeBujNJG7StOKS0dOROvagbXS70rKRdZC');
+
+INSERT INTO users (username, email, password_hash)
+VALUES ('user4', 'user4@example.com', '$2a$10$M5hzbYL8h3X7qw0AbKS2P.uPH9U6qp56OW5LkcnYLKqLJ2UNFXRim');
+
+INSERT INTO users (username, email, password_hash)
+VALUES ('user5', 'user5@example.com', '$2a$10$B5L8fuIW7jhPn6YFZB6MsuguavFVYBOBaG6q/bUtjr4.ifu8E2wza');
+
 
 INSERT INTO tweet (content, created_at, user_id)
-VALUES ('This is a sample tweet!', '2023-07-23 12:34:56', 1);
+VALUES ('Hello, Twitterverse!', '2023-07-24 09:15:30', 1);
 
 INSERT INTO tweet (content, created_at, user_id)
-VALUES ('Hello Twitter!', '2023-07-23 13:45:00', 2);
+VALUES ('Having a great day!', '2023-07-24 10:30:15', 2);
 
 INSERT INTO tweet (content, created_at, user_id)
-VALUES ('Tweeting from a different user account.', '2023-07-23 15:00:00', 3);
+VALUES ('Just tweeted something cool.', '2023-07-24 11:45:45', 3);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Testing tweet functionality.', '2023-07-24 13:00:00', 4);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Final tweet of the day!', '2023-07-24 14:30:00', 5);
+
+INSERT INTO follow (follower_id, following_id)
+VALUES (1, 2);
+
+INSERT INTO follow (follower_id, following_id)
+VALUES (2, 3);
+
+INSERT INTO follow (follower_id, following_id)
+VALUES (3, 4);
+
+INSERT INTO follow (follower_id, following_id)
+VALUES (4, 5);
+
+INSERT INTO follow (follower_id, following_id)
+VALUES (5, 1);
+

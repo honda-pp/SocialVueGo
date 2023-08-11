@@ -48,10 +48,14 @@ func NewApplication(db *sql.DB) *Application {
 		api.GET("/checkLoggedIn", userHandler.CheckLoggedIn)
 		api.GET("/userList", userHandler.GetUserList)
 		api.GET("/userInfo/:userID", userHandler.GetUserInfo)
+
 		api.POST("/follow/:userID", followHandler.FollowUser)
 		api.POST("/unfollow/:userID", followHandler.UnfollowUser)
 		api.GET("/followerIDs", followHandler.GetFollowerIDs)
+		api.GET("/followerIDs/:userID", followHandler.GetFollowerIDs)
 		api.GET("/followingIDs", followHandler.GetFollowingIDs)
+		api.GET("/followingIDs/:userID", followHandler.GetFollowingIDs)
+
 		api.GET("/tweetList", tweetHandler.GetTweetList)
 		api.GET("/tweetList/:userID", tweetHandler.GetTweetListByUserID)
 		api.POST("/createTweet", tweetHandler.CreateTweet)

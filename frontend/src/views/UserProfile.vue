@@ -1,8 +1,11 @@
 <template>
   <div class="user-profile">
-    <h1>User Profile: {{ username }}</h1>
+    <h1>User Profile: {{ user.username }}</h1>
     <div>
-      
+      <span>{{ user.following_num }}</span>
+      following
+      <span>{{ user.follower_num }}</span>
+      follower
     </div>
     <ul>
       <li v-for="tweet in tweetList" :key="tweet.tweet_id" class="tweet-item">
@@ -23,7 +26,7 @@ import { getUserInfo } from '../api/userApi';
 import { getTweetListByUserID } from '../api/tweetApi';
 import { formatDate } from '../utils/dateUtil';
 
-const username = ref('');
+const user = ref({});
 const tweetList = ref([]);
 const route = useRoute();
 
@@ -39,7 +42,7 @@ onMounted(async () => {
 const fetchUserInfo = async (userID) => {
   try {
     const response = await getUserInfo(userID)
-    username.value = response.user.username
+    user.value = response.user
   } catch (error) {
     console.error('Error fetching user info:', error);
   }

@@ -58,12 +58,17 @@ func (r *UserRepository) GetUserList() ([]*models.User, error) {
 }
 
 func (r *UserRepository) GetUserInfo(userID int) (*models.User, error) {
-	query := "SELECT id, username FROM users WHERE id = $1"
+	query := `
+		SELECT id, username
+		, (select count(*) from follow where follower_id = id) as following_num
+		, (select count(*) from follow where following_id = id) as follower_num
+		FROM users
+		WHERE id = $1`
 
 	user := &models.User{}
 
 	row := r.db.QueryRow(query, userID)
-	err := row.Scan(&user.ID, &user.Username)
+	err := row.Scan(&user.ID, &user.Username, &user.FollowingNum, &user.FollowerNum)
 	if err != nil {
 		return nil, err
 	}

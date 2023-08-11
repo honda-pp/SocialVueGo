@@ -22,7 +22,6 @@ export const getTweetList = async () => {
 export const getTweetListByUserID = async (userID) => {
   try {
     const response = await tweetApi.get(`/tweetList/${userID}`);
-    console.log(response.data)
     return response.data;
   } catch (error) {
     throw error.response.data;

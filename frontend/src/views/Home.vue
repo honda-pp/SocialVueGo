@@ -1,13 +1,34 @@
 <template>
   <div class="home-container">
     <p>
-      You are currently logged in as {{ userID }}.
+      You are currently logged in as {{ username }}.
     </p>
   </div>
 </template>
 
 <script setup>
-const userID = localStorage.getItem('userID');
+import { ref, onMounted } from 'vue';
+import { getUserInfo } from '../api/userApi';
+
+const username = ref('');
+onMounted(async () => {
+  try {
+    await fetchUserInfo(localStorage.getItem('userID'))
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+  }
+});
+
+const fetchUserInfo = async (userID) => {
+  try {
+    const response = await getUserInfo(userID)
+    username.value = response.user.username
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+  }
+}
+
+
 </script>
 
 <style>

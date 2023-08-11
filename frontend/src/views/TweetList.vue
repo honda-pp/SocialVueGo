@@ -5,7 +5,9 @@
       <li v-for="tweet in tweetList" :key="tweet.tweet_id" class="tweet-item">
         <div class="tweet-content">{{ tweet.content }}</div>
         <div class="tweet-info">
-          <span class="tweet-username">{{ tweet.username }}</span>
+          <router-link :to="`/${tweet.userID}`">
+            <span class="tweet-username">{{ tweet.username }}</span>
+          </router-link>
           <span class="tweet-date">{{ formatDate(tweet.createdAt) }}</span>
         </div>
       </li>

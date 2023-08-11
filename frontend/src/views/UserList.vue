@@ -4,8 +4,8 @@
     <ul>
       <li v-for="user in userList" :key="user.id">
         <router-link :to="`/${user.id}`">
-        <span>{{ user.username }}</span>
-      </router-link>
+          <span>{{ user.username }}</span>
+        </router-link>
         <button @click="follow(user.id)" v-if="!user.followed && !isLoggedInUser(user.id)">Follow</button>
         <button @click="unfollow(user.id)" v-else-if="user.followed && !isLoggedInUser(user.id)">Unfollow</button>
         <span class="followed-label" v-if="user.followedByLoggedInUser || isLoggedInUser(user.id)">

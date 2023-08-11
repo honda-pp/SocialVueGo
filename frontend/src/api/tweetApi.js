@@ -19,6 +19,16 @@ export const getTweetList = async () => {
   }
 };
 
+export const getTweetListByUserID = async (userID) => {
+  try {
+    const response = await tweetApi.get(`/tweetList/${userID}`);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 export const createTweet = async (tweet) => {
   try {
     const response = await tweetApi.post(`/createTweet`, tweet);

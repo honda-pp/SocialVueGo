@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import UserList from '../views/UserList.vue';
 import TweetList from '../views/TweetList.vue';
+import UserProfile from '../views/UserProfile.vue';
 
 const routes = [
   {
@@ -26,6 +27,12 @@ const routes = [
     component: TweetList,
     meta: { requiresAuth: true },
   },
+  {
+    path: '/:userID',
+    name: 'UserProfile',
+    component: UserProfile,
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
@@ -34,7 +41,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const isLoggedIn = localStorage.getItem('userID') != null;
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
   if (requiresAuth && !isLoggedIn) {

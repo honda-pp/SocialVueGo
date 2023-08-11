@@ -45,6 +45,7 @@ func (h *UserHandler) Login(c *gin.Context) {
 
 	session := sessions.Default(c)
 	session.Set("userID", user.ID)
+	session.Set("username", user.Username)
 	session.Save()
 
 	c.JSON(http.StatusOK, gin.H{
@@ -69,6 +70,7 @@ func (h *UserHandler) CheckLoggedIn(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"isLoggedIn": session.Get("userID") != nil,
 		"userID":     session.Get("userID"),
+		"username":   session.Get("username"),
 	})
 }
 
@@ -112,6 +114,24 @@ func (h *UserHandler) GetUserList(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"userList": userList})
+}
+
+func (h *UserHandler) GetUserInfo(c *gin.Context) {
+	userIDStr := c.Param("userID")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
+		return
+	}
+
+	user, err := h.UserUsecase.GetUserInfo(userID)
+	if err != nil {
+		logger.LogError("Failed to get user ifno: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user info"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"user": user})
 }
 
 func HashPassword(user *models.User) error {

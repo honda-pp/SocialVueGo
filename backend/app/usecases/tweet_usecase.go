@@ -19,6 +19,10 @@ func (u *TweetUsecase) GetTweetList() ([]*models.Tweet, error) {
 	return u.TweetRepository.GetTweetList()
 }
 
+func (u *TweetUsecase) GetTweetListByUserID(userID int) ([]*models.Tweet, error) {
+	return u.TweetRepository.GetTweetListByUserID(userID)
+}
+
 func (u *TweetUsecase) CreateTweet(tweet *models.Tweet) error {
 	return u.TweetRepository.CreateTweet(tweet)
 }

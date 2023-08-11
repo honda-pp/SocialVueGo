@@ -72,6 +72,36 @@ VALUES ('Testing tweet functionality.', '2023-07-24 13:00:00', 4);
 INSERT INTO tweet (content, created_at, user_id)
 VALUES ('Final tweet of the day!', '2023-07-24 14:30:00', 5);
 
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Another tweet from user 1.', '2023-07-25 09:00:00', 1);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Enjoying the weekend!', '2023-07-25 10:30:00', 2);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Trying out new features.', '2023-07-25 11:45:00', 3);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Feeling productive today.', '2023-07-25 13:15:00', 4);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('End of the day tweet.', '2023-07-25 14:45:00', 5);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Hello from user 1!', '2023-07-26 09:30:00', 1);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Another sunny day.', '2023-07-26 11:00:00', 2);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Sharing some thoughts.', '2023-07-26 12:30:00', 3);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Exploring new horizons.', '2023-07-26 14:00:00', 4);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Last tweet of the week!', '2023-07-26 15:30:00', 5);
+
 INSERT INTO follow (follower_id, following_id)
 VALUES (1, 2);
 

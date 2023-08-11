@@ -53,6 +53,7 @@ func NewApplication(db *sql.DB) *Application {
 		api.GET("/followerIDs", followHandler.GetFollowerIDs)
 		api.GET("/followingIDs", followHandler.GetFollowingIDs)
 		api.GET("/tweetList", tweetHandler.GetTweetList)
+		api.GET("/tweetList/:userID", tweetHandler.GetTweetListByUserID)
 		api.POST("/createTweet", tweetHandler.CreateTweet)
 	}
 

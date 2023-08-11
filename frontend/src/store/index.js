@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { loginUser, logoutUser, signupUser, checkLoggedIn } from '../api/userApi';
+import { loginUser, logoutUser, signupUser, getSessionInfo } from '../api/userApi';
 
 export default createStore({
   state: {
@@ -41,7 +41,7 @@ export default createStore({
     },
     async checkLoginStatus({ commit }) {
       try {
-        const response = await checkLoggedIn();
+        const response = await getSessionInfo();
         commit('SET_LOGIN_STATUS', response.isLoggedIn == true)
         
         if (response.isLoggedIn) {

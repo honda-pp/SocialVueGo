@@ -65,7 +65,7 @@ func (h *UserHandler) Logout(c *gin.Context) {
 	})
 }
 
-func (h *UserHandler) CheckLoggedIn(c *gin.Context) {
+func (h *UserHandler) GetSessionInfo(c *gin.Context) {
 	session := sessions.Default(c)
 	c.JSON(http.StatusOK, gin.H{
 		"isLoggedIn": session.Get("userID") != nil,

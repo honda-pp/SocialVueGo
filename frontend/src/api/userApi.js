@@ -28,9 +28,9 @@ export const logoutUser = async () => {
   }
 };
 
-export const checkLoggedIn = async () => {
+export const getSessionInfo = async () => {
   try {
-    const response = await userApi.get(`/checkLoggedIn`);
+    const response = await userApi.get(`/sessionInfo`);
     return response.data;
   } catch (error) {
     throw error.response.data;

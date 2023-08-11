@@ -1,6 +1,9 @@
 <template>
   <div class="user-profile">
     <h1>User Profile: {{ username }}</h1>
+    <div>
+      
+    </div>
     <ul>
       <li v-for="tweet in tweetList" :key="tweet.tweet_id" class="tweet-item">
         <div class="tweet-content">{{ tweet.content }}</div>

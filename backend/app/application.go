@@ -45,7 +45,7 @@ func NewApplication(db *sql.DB) *Application {
 		api.POST("/login", userHandler.Login)
 		api.POST("/logout", userHandler.Logout)
 		api.POST("/signup", userHandler.Signup)
-		api.GET("/checkLoggedIn", userHandler.CheckLoggedIn)
+		api.GET("/sessionInfo", userHandler.GetSessionInfo)
 		api.GET("/userList", userHandler.GetUserList)
 		api.GET("/userInfo/:userID", userHandler.GetUserInfo)
 

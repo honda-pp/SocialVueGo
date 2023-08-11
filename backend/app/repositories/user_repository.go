@@ -57,6 +57,20 @@ func (r *UserRepository) GetUserList() ([]*models.User, error) {
 	return userList, nil
 }
 
+func (r *UserRepository) GetUserInfo(userID int) (*models.User, error) {
+	query := "SELECT id, username FROM users WHERE id = $1"
+
+	user := &models.User{}
+
+	row := r.db.QueryRow(query, userID)
+	err := row.Scan(&user.ID, &user.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func (r *UserRepository) CreateUser(user *models.User) error {
 	query := "INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id"
 	err := r.db.QueryRow(query, user.Username, user.Email, user.PasswordHash).Scan(&user.ID)

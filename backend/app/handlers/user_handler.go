@@ -114,6 +114,24 @@ func (h *UserHandler) GetUserList(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"userList": userList})
 }
 
+func (h *UserHandler) GetUserInfo(c *gin.Context) {
+	userIDStr := c.Param("userID")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
+		return
+	}
+
+	user, err := h.UserUsecase.GetUserInfo(userID)
+	if err != nil {
+		logger.LogError("Failed to get user ifno: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user info"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"user": user})
+}
+
 func HashPassword(user *models.User) error {
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {

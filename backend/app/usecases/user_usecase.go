@@ -23,6 +23,10 @@ func (u *UserUsecase) GetUserList() ([]*models.User, error) {
 	return u.UserRepository.GetUserList()
 }
 
+func (u *UserUsecase) GetUserInfo(userID int) (*models.User, error) {
+	return u.UserRepository.GetUserInfo(userID)
+}
+
 func (u *UserUsecase) CreateUser(user *models.User) error {
 	return u.UserRepository.CreateUser(user)
 }

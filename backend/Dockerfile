@@ -8,4 +8,4 @@ RUN go install github.com/cosmtrek/air@v1.29.0
 
 RUN go mod download
 
-CMD ["go", "run", "cmd/main.go"]
+CMD ["go", "run", "main.go"]

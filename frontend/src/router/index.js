@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import UserList from '../views/UserList.vue';
 import TweetList from '../views/TweetList.vue';
+import UserProfile from '../views/UserProfile.vue';
 
 const routes = [
   {
@@ -24,6 +25,12 @@ const routes = [
     path: '/tweet-list',
     name: 'TweetList',
     component: TweetList,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/:userID',
+    name: 'UserProfile',
+    component: UserProfile,
     meta: { requiresAuth: true },
   },
 ];

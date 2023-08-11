@@ -37,9 +37,9 @@ export const checkLoggedIn = async () => {
   }
 };
 
-export const getUserInfo = async () => {
+export const getUserInfo = async (userID) => {
   try {
-    const response = await userApi.get(`/getUserInfo`);
+    const response = await userApi.get(`/userInfo/${userID}`);
     return response.data;
   } catch (error) {
     throw error.response.data;

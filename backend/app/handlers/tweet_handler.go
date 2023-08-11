@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,23 @@ func NewTweetHandler(tweetUsecase usecases.TweetUsecase) *TweetHandler {
 
 func (h *TweetHandler) GetTweetList(c *gin.Context) {
 	tweetList, err := h.TweetUsecase.GetTweetList()
+	if err != nil {
+		logger.LogError("Failed to get tweet list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get tweet list"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"tweetList": tweetList})
+}
+
+func (h *TweetHandler) GetTweetListByUserID(c *gin.Context) {
+	userIDStr := c.Param("userID")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
+		return
+	}
+	tweetList, err := h.TweetUsecase.GetTweetListByUserID(userID)
 	if err != nil {
 		logger.LogError("Failed to get tweet list: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get tweet list"})

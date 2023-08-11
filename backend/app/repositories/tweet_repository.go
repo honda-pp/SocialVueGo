@@ -17,15 +17,8 @@ func NewTweetRepository(db *sql.DB) interfaces.TweetRepository {
 	}
 }
 
-func (r *TweetRepository) GetTweetList() ([]*models.Tweet, error) {
-	query := `
-		SELECT t.tweet_id, t.content, t.created_at, t.user_id, u.username
-		FROM tweet t
-		JOIN users u ON t.user_id = u.id
-		ORDER BY t.created_at DESC
-	`
-
-	rows, err := r.db.Query(query)
+func (r *TweetRepository) getTweetListWithQuery(query string, args ...interface{}) ([]*models.Tweet, error) {
+	rows, err := r.db.Query(query, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,6 +40,29 @@ func (r *TweetRepository) GetTweetList() ([]*models.Tweet, error) {
 	}
 
 	return tweetList, nil
+}
+
+func (r *TweetRepository) GetTweetList() ([]*models.Tweet, error) {
+	query := `
+		SELECT t.tweet_id, t.content, t.created_at, t.user_id, u.username
+		FROM tweet t
+		JOIN users u ON t.user_id = u.id
+		ORDER BY t.created_at DESC
+	`
+
+	return r.getTweetListWithQuery(query)
+}
+
+func (r *TweetRepository) GetTweetListByUserID(userID int) ([]*models.Tweet, error) {
+	query := `
+		SELECT t.tweet_id, t.content, t.created_at, t.user_id, u.username
+		FROM tweet t
+		JOIN users u ON t.user_id = u.id
+		WHERE u.id = $1
+		ORDER BY t.created_at DESC
+	`
+
+	return r.getTweetListWithQuery(query, userID)
 }
 
 func (r *TweetRepository) CreateTweet(tweet *models.Tweet) error {

@@ -22,7 +22,6 @@ export default createStore({
     async login({ commit }, userData) {
       try {
         const response = await loginUser(userData);
-        localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userID', response.userID);
         commit('SET_LOGIN_STATUS', true);
         commit('SET_LOGIN_POPUP_VISIBILITY', false);
@@ -35,7 +34,6 @@ export default createStore({
       try {
         await logoutUser();
         commit('SET_LOGIN_STATUS', false);
-        localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('userID');
       } catch (error) {
         console.error('Logout failed:', error);
@@ -44,13 +42,11 @@ export default createStore({
     async checkLoginStatus({ commit }) {
       try {
         const response = await checkLoggedIn();
-        localStorage.setItem('isLoggedIn', response.isLoggedIn == true);
         commit('SET_LOGIN_STATUS', response.isLoggedIn == true)
         
         if (response.isLoggedIn) {
           localStorage.setItem('userID', response.userID);
         } else {
-          localStorage.removeItem('isLoggedIn');
           localStorage.removeItem('userID');
         }
         } catch (error) {
@@ -61,7 +57,6 @@ export default createStore({
       try {
         const response = await signupUser(userData);
         commit('SET_LOGIN_STATUS', true);
-        localStorage.setItem('isLoggedIn', true);
         localStorage.setItem('userID', response.userID);
         commit('SET_SIGNUP_POPUP_VISIBILITY', false);
       } catch (error) {

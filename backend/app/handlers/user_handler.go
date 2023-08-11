@@ -45,6 +45,7 @@ func (h *UserHandler) Login(c *gin.Context) {
 
 	session := sessions.Default(c)
 	session.Set("userID", user.ID)
+	session.Set("username", user.Username)
 	session.Save()
 
 	c.JSON(http.StatusOK, gin.H{
@@ -69,6 +70,7 @@ func (h *UserHandler) CheckLoggedIn(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"isLoggedIn": session.Get("userID") != nil,
 		"userID":     session.Get("userID"),
+		"username":   session.Get("username"),
 	})
 }
 

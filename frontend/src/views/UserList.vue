@@ -18,7 +18,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { followUser, unfollowUser, getUserList, getFollowingIDs, getFollowerIDs } from '../api/userApi';
+import { followUser, unfollowUser, getFollowingIDs, getFollowerIDs } from '../api/followApi';
+import { getUserList } from '../api/userApi';
 
 const userList = ref([]);
 const loggedInUserId = parseInt(localStorage.getItem('userID'));

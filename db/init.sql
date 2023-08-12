@@ -39,9 +39,6 @@ CREATE TABLE retweet (
 );
 
 INSERT INTO users (username, email, password_hash)
-VALUES ('testuser', 'testuser@example.com', '$2a$10$FjMTsB34.Pw.Jn7z3FMis.JzgMac8y2UV83X5xpxCsN1JSnbnjF6i');
-
-INSERT INTO users (username, email, password_hash)
 VALUES ('user1', 'user1@example.com', '$2a$10$1IbewfZwgFNMJiU6D4KXgeL72uMctFaDRkouNhxHdFJddJ2Fx6Dd2');
 
 INSERT INTO users (username, email, password_hash)
@@ -56,6 +53,11 @@ VALUES ('user4', 'user4@example.com', '$2a$10$M5hzbYL8h3X7qw0AbKS2P.uPH9U6qp56OW
 INSERT INTO users (username, email, password_hash)
 VALUES ('user5', 'user5@example.com', '$2a$10$B5L8fuIW7jhPn6YFZB6MsuguavFVYBOBaG6q/bUtjr4.ifu8E2wza');
 
+INSERT INTO users (username, email, password_hash)
+VALUES ('user6', 'user6@example.com', '$2a$10$CzX7d65EOq53ZMPtqsz7xO6tk6r1exstMe0tBpZoVbSGmkhRrOWpa');
+
+INSERT INTO users (username, email, password_hash)
+VALUES ('user7', 'user7@example.com', '$2a$10$YL9CmzgqjU17pp4tZUGiEuwclFzKSyGYeAzrP2GwIWxSNIdiLlCJ2');
 
 INSERT INTO tweet (content, created_at, user_id)
 VALUES ('Hello, Twitterverse!', '2023-07-24 09:15:30', 1);
@@ -102,18 +104,120 @@ VALUES ('Exploring new horizons.', '2023-07-26 14:00:00', 4);
 INSERT INTO tweet (content, created_at, user_id)
 VALUES ('Last tweet of the week!', '2023-07-26 15:30:00', 5);
 
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('More tweets to share!', '2023-07-27 09:30:00', 6);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Exciting times ahead.', '2023-07-27 11:00:00', 7);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Exploring the city!', '2023-07-28 10:00:00', 3);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('New adventures await.', '2023-07-28 12:30:00', 4);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Chasing dreams!', '2023-07-28 15:00:00', 5);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Another day, another tweet.', '2023-07-29 09:30:00', 6);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('More tweets to share!', '2023-07-27 09:30:00', 6);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Exciting times ahead.', '2023-07-27 11:00:00', 7);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Exploring the city!', '2023-07-28 10:00:00', 3);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('New adventures await.', '2023-07-28 12:30:00', 4);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Chasing dreams!', '2023-07-28 15:00:00', 5);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Another day, another tweet.', '2023-07-29 09:30:00', 6);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Having a wonderful time!', '2023-07-29 11:00:00', 7);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Reflecting on the week.', '2023-07-30 10:00:00', 3);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Looking forward to the weekend.', '2023-07-30 12:30:00', 4);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Enjoying the sunshine!', '2023-07-30 15:00:00', 5);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Ready for new challenges.', '2023-07-31 09:30:00', 6);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Feeling inspired!', '2023-07-31 11:00:00', 7);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Making memories.', '2023-08-01 10:00:00', 3);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Exploring nature.', '2023-08-01 12:30:00', 4);
+
+INSERT INTO tweet (content, created_at, user_id)
+VALUES ('Taking a break.', '2023-08-01 15:00:00', 5);
+
 INSERT INTO follow (follower_id, following_id)
 VALUES (1, 2);
-
+INSERT INTO follow (follower_id, following_id)
+VALUES (1, 3);
+INSERT INTO follow (follower_id, following_id)
+VALUES (1, 4);
 INSERT INTO follow (follower_id, following_id)
 VALUES (2, 3);
-
+INSERT INTO follow (follower_id, following_id)
+VALUES (2, 4);
+INSERT INTO follow (follower_id, following_id)
+VALUES (2, 5);
 INSERT INTO follow (follower_id, following_id)
 VALUES (3, 4);
-
+INSERT INTO follow (follower_id, following_id)
+VALUES (3, 5);
+INSERT INTO follow (follower_id, following_id)
+VALUES (3, 1);
 INSERT INTO follow (follower_id, following_id)
 VALUES (4, 5);
-
+INSERT INTO follow (follower_id, following_id)
+VALUES (4, 1);
+INSERT INTO follow (follower_id, following_id)
+VALUES (4, 2);
 INSERT INTO follow (follower_id, following_id)
 VALUES (5, 1);
-
+INSERT INTO follow (follower_id, following_id)
+VALUES (5, 2);
+INSERT INTO follow (follower_id, following_id)
+VALUES (5, 3);
+INSERT INTO follow (follower_id, following_id)
+VALUES (6, 7);
+INSERT INTO follow (follower_id, following_id)
+VALUES (7, 1);
+INSERT INTO follow (follower_id, following_id)
+VALUES (7, 2);
+INSERT INTO follow (follower_id, following_id)
+VALUES (7, 3);
+INSERT INTO follow (follower_id, following_id)
+VALUES (5, 6);
+INSERT INTO follow (follower_id, following_id)
+VALUES (6, 1);
+INSERT INTO follow (follower_id, following_id)
+VALUES (6, 2);
+INSERT INTO follow (follower_id, following_id)
+VALUES (6, 3);
+INSERT INTO follow (follower_id, following_id)
+VALUES (6, 4);
+INSERT INTO follow (follower_id, following_id)
+VALUES (6, 5);
+INSERT INTO follow (follower_id, following_id)
+VALUES (7, 4);
+INSERT INTO follow (follower_id, following_id)
+VALUES (4, 7);

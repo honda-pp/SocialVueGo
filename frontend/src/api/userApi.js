@@ -28,9 +28,9 @@ export const logoutUser = async () => {
   }
 };
 
-export const checkLoggedIn = async () => {
+export const getSessionInfo = async () => {
   try {
-    const response = await userApi.get(`/checkLoggedIn`);
+    const response = await userApi.get(`/sessionInfo`);
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -55,45 +55,17 @@ export const signupUser = async (userData) => {
   }
 };
 
-export const getUserList = async () => {
-  try {
-    const response = await userApi.get(`/userList`);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
+export const getUserList = async (userID, relationshipType) => {
+  let path = ``
+  if (relationshipType == null) {
+    path = `/userList`
+  } else if (relationshipType === 'Follower') {
+    path = `/followerUserList/${userID}`
+  } else {
+    path = `/followingUserList/${userID}`
   }
-};
-
-export const followUser = async (userId) => {
   try {
-    const response = await userApi.post(`/follow/${userId}`);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
-};
-
-export const unfollowUser = async (userId) => {
-  try {
-    const response = await userApi.post(`/unfollow/${userId}`);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
-};
-
-export const getFollowingIDs = async () => {
-  try {
-    const response = await userApi.get(`/followingIDs`);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
-};
-
-export const getFollowerIDs = async () => {
-  try {
-    const response = await userApi.get(`/followerIDs`);
+    const response = await userApi.get(path);
     return response.data;
   } catch (error) {
     throw error.response.data;

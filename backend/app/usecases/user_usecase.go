@@ -23,6 +23,10 @@ func (u *UserUsecase) GetUserList() ([]*models.User, error) {
 	return u.UserRepository.GetUserList()
 }
 
+func (u *UserUsecase) GetUsersByRelationship(userID int, relationshipType string) ([]*models.User, error) {
+	return u.UserRepository.GetUsersByRelationship(userID, relationshipType)
+}
+
 func (u *UserUsecase) GetUserInfo(userID int) (*models.User, error) {
 	return u.UserRepository.GetUserInfo(userID)
 }

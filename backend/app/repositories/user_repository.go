@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"database/sql"
+	"errors"
 
 	"github.com/honda-pp/SocialVueGo/backend/app/interfaces"
 	"github.com/honda-pp/SocialVueGo/backend/app/models"
@@ -57,13 +58,64 @@ func (r *UserRepository) GetUserList() ([]*models.User, error) {
 	return userList, nil
 }
 
+func (r *UserRepository) GetUsersByRelationship(userID int, relationshipType string) ([]*models.User, error) {
+	var query string
+	if relationshipType == "following" {
+		query = `
+			SELECT u.id, u.username
+			FROM users u
+			JOIN follow f ON $1 = f.follower_id
+			WHERE u.id = f.following_id
+			ORDER BY u.id DESC
+		`
+	} else if relationshipType == "follower" {
+		query = `
+			SELECT u.id, u.username
+			FROM users u
+			JOIN follow f ON $1 = f.following_id
+			WHERE u.id = f.follower_id
+			ORDER BY u.id DESC
+		`
+	} else {
+		return nil, errors.New("Invalid relationship type")
+	}
+
+	rows, err := r.db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var userList []*models.User
+	for rows.Next() {
+		user := &models.User{}
+		err = rows.Scan(&user.ID, &user.Username)
+		if err != nil {
+			return nil, err
+		}
+		userList = append(userList, user)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return userList, nil
+}
+
 func (r *UserRepository) GetUserInfo(userID int) (*models.User, error) {
-	query := "SELECT id, username FROM users WHERE id = $1"
+	query := `
+		SELECT id, username
+		, (select count(*) from follow where follower_id = id) as following_num
+		, (select count(*) from follow where following_id = id) as follower_num
+		FROM users
+		WHERE id = $1`
 
 	user := &models.User{}
 
 	row := r.db.QueryRow(query, userID)
-	err := row.Scan(&user.ID, &user.Username)
+	err := row.Scan(&user.ID, &user.Username, &user.FollowingNum, &user.FollowerNum)
 	if err != nil {
 		return nil, err
 	}

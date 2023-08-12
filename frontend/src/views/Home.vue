@@ -8,21 +8,21 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getUserInfo } from '../api/userApi';
+import { getSessionInfo } from '../api/userApi';
 
 const username = ref('');
 onMounted(async () => {
   try {
-    await fetchUserInfo(localStorage.getItem('userID'))
+    await fetchUserInfo()
   } catch (error) {
     console.error('Error fetching user info:', error);
   }
 });
 
-const fetchUserInfo = async (userID) => {
+const fetchUserInfo = async () => {
   try {
-    const response = await getUserInfo(userID)
-    username.value = response.user.username
+    const response = await getSessionInfo()
+    username.value = response.username
   } catch (error) {
     console.error('Error fetching user info:', error);
   }

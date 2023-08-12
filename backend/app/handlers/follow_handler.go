@@ -14,22 +14,25 @@ type FollowHandler struct {
 	FollowUsecase usecases.FollowUsecase
 }
 
-func NewFollowHandler(userUsecase usecases.FollowUsecase) *FollowHandler {
+func NewFollowHandler(followUsecase usecases.FollowUsecase) *FollowHandler {
 	return &FollowHandler{
-		FollowUsecase: userUsecase,
+		FollowUsecase: followUsecase,
 	}
+}
+
+func (h *FollowHandler) handleUnauthorized(c *gin.Context) {
+	c.JSON(http.StatusUnauthorized, gin.H{"error": "You must be logged in to perform this action."})
 }
 
 func (h *FollowHandler) FollowUser(c *gin.Context) {
 	session := sessions.Default(c)
 	userID := session.Get("userID")
 	if userID == nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "You must be logged in to follow users."})
+		h.handleUnauthorized(c)
 		return
 	}
 
-	followingIDStr := c.Param("userID")
-	followingID, err := strconv.Atoi(followingIDStr)
+	followingID, err := strconv.Atoi(c.Param("userID"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
 		return
@@ -53,12 +56,11 @@ func (h *FollowHandler) UnfollowUser(c *gin.Context) {
 	session := sessions.Default(c)
 	userID := session.Get("userID")
 	if userID == nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "You must be logged in to unfollow users."})
+		h.handleUnauthorized(c)
 		return
 	}
 
-	followingIDStr := c.Param("userID")
-	followingID, err := strconv.Atoi(followingIDStr)
+	followingID, err := strconv.Atoi(c.Param("userID"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
 		return
@@ -73,58 +75,43 @@ func (h *FollowHandler) UnfollowUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "You have unfollowed the user."})
 }
 
-func (h *FollowHandler) GetFollowingIDs(c *gin.Context) {
-	session := sessions.Default(c)
-	userID := session.Get("userID")
-	if userID == nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "You must be logged in to get following list."})
-		return
+func (h *FollowHandler) getRelationshipIDs(c *gin.Context, getIDsFunc func(int) ([]int, error)) []int {
+	noIds := []int{}
+	var userIDInt int
+	var err error
+
+	if userIDParam := c.Param("userID"); userIDParam != "" {
+		userIDInt, err = strconv.Atoi(userIDParam)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID."})
+			return noIds
+		}
+	} else {
+		session := sessions.Default(c)
+		userID := session.Get("userID")
+		if userID == nil {
+			h.handleUnauthorized(c)
+			return noIds
+		}
+		userIDInt = userID.(int)
 	}
 
-	userIDInt, ok := userID.(int)
-	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID."})
-		return
-	}
-
-	followingIDs, err := h.FollowUsecase.GetFollowingIDs(userIDInt)
+	ids, err := getIDsFunc(userIDInt)
 	if err != nil {
-		logger.LogError("Failed to get following list: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get following list."})
-		return
+		logger.LogError("Failed to get relationship list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get relationship list."})
+		return noIds
 	}
 
-	if followingIDs == nil {
-		followingIDs = []int{}
-	}
+	return ids
+}
 
+func (h *FollowHandler) GetFollowingIDs(c *gin.Context) {
+	followingIDs := h.getRelationshipIDs(c, h.FollowUsecase.GetFollowingIDs)
 	c.JSON(http.StatusOK, gin.H{"followingIDs": followingIDs})
 }
 
 func (h *FollowHandler) GetFollowerIDs(c *gin.Context) {
-	session := sessions.Default(c)
-	userID := session.Get("userID")
-	if userID == nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "You must be logged in to get follower list."})
-		return
-	}
-
-	userIDInt, ok := userID.(int)
-	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID."})
-		return
-	}
-
-	followerIDs, err := h.FollowUsecase.GetFollowerIDs(userIDInt)
-	if err != nil {
-		logger.LogError("Failed to get follower list: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get follower list."})
-		return
-	}
-
-	if followerIDs == nil {
-		followerIDs = []int{}
-	}
-
+	followerIDs := h.getRelationshipIDs(c, h.FollowUsecase.GetFollowerIDs)
 	c.JSON(http.StatusOK, gin.H{"followerIDs": followerIDs})
 }

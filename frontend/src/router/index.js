@@ -4,6 +4,7 @@ import Login from '../views/Login.vue';
 import UserList from '../views/UserList.vue';
 import TweetList from '../views/TweetList.vue';
 import UserProfile from '../views/UserProfile.vue';
+import FollowList from '../views/FollowList.vue';
 
 const routes = [
   {
@@ -31,6 +32,18 @@ const routes = [
     path: '/:userID',
     name: 'UserProfile',
     component: UserProfile,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/:userID/following',
+    name: 'Following',
+    component: FollowList,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/:userID/follower',
+    name: 'Follower',
+    component: FollowList,
     meta: { requiresAuth: true },
   },
 ];

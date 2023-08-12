@@ -65,7 +65,7 @@ func (h *UserHandler) Logout(c *gin.Context) {
 	})
 }
 
-func (h *UserHandler) CheckLoggedIn(c *gin.Context) {
+func (h *UserHandler) GetSessionInfo(c *gin.Context) {
 	session := sessions.Default(c)
 	c.JSON(http.StatusOK, gin.H{
 		"isLoggedIn": session.Get("userID") != nil,
@@ -107,6 +107,40 @@ func (h *UserHandler) Signup(c *gin.Context) {
 
 func (h *UserHandler) GetUserList(c *gin.Context) {
 	userList, err := h.UserUsecase.GetUserList()
+	if err != nil {
+		logger.LogError("Failed to get user list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"userList": userList})
+}
+
+func (h *UserHandler) GetFollowingUserList(c *gin.Context) {
+	userIDStr := c.Param("userID")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
+		return
+	}
+	userList, err := h.UserUsecase.GetUsersByRelationship(userID, "following")
+	if err != nil {
+		logger.LogError("Failed to get user list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"userList": userList})
+}
+
+func (h *UserHandler) GetFollowerUserList(c *gin.Context) {
+	userIDStr := c.Param("userID")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
+		return
+	}
+	userList, err := h.UserUsecase.GetUsersByRelationship(userID, "follower")
 	if err != nil {
 		logger.LogError("Failed to get user list: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})

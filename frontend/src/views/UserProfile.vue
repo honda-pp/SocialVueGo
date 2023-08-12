@@ -1,13 +1,15 @@
 <template>
   <div class="user-profile">
     <div class="user-info">
-      <h1 class="username">{{ user.username }}</h1>
+      <img :src="user.iconUrl" alt="User Icon" class="user-icon">
+      <div class="username">{{ user.username }}</div>
+      <div class="self-introduction">{{ user.selfIntroduction }}</div>
       <div class="follower-info">
         <router-link :to="`/${user.id}/following`" class="follower-link">
-          {{ user.following_num }} Following
+          {{ user.followingNum }} Following
         </router-link>
         <router-link :to="`/${user.id}/follower`" class="follower-link">
-          {{ user.follower_num }} Followers
+          {{ user.followerNum }} Followers
         </router-link>
       </div>
     </div>
@@ -67,16 +69,32 @@ const fetchTweetList = async (userID) => {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  text-align: center;
+}
+
+.user-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .username {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
   margin-bottom: 10px;
+}
+
+.self-introduction {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
 }
 
 .follower-info {
   font-size: 1.2rem;
   color: #777;
+  margin-bottom: 20px;
 }
 
 .follower-link {
@@ -113,6 +131,7 @@ const fetchTweetList = async (userID) => {
 
 .tweet-username {
   font-weight: bold;
+  color: #3498db;
 }
 
 .tweet-date {

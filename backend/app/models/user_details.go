@@ -5,10 +5,10 @@ import "time"
 type UserDetails struct {
 	ID               int       `json:"id"`
 	Username         string    `json:"username"`
-	SelfIntroduction string    `json:"self_introduction"`
-	DateOfBirth      time.Time `json:"date_of_birth"`
-	IconUrl          string    `json:"icon_url"`
+	SelfIntroduction string    `json:"selfIntroduction"`
+	DateOfBirth      time.Time `json:"dateOfBirth"`
+	IconUrl          string    `json:"iconUrl"`
 	Location         string    `json:"location"`
-	FollowingNum     *int      `json:"following_num,omitempty"`
-	FollowerNum      *int      `json:"follower_num,omitempty"`
+	FollowingNum     *int      `json:"followingNum,omitempty"`
+	FollowerNum      *int      `json:"followerNum,omitempty"`
 }

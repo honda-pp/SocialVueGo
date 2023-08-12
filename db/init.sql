@@ -58,13 +58,13 @@ VALUES
 
 INSERT INTO user_details (user_id, self_introduction, date_of_birth, icon_url, location)
 VALUES
-  (1, 'Hello, I''m user1!', '1990-01-15', 'https://example.com/user1_icon.jpg', 'Tokyo'),
-  (2, 'Nice to meet you! I''m user2.', '1985-09-22', 'https://example.com/user2_icon.jpg', 'New York'),
-  (3, 'Hello there! I''m user3.', '1992-03-10', 'https://example.com/user3_icon.jpg', 'London'),
-  (4, 'Greetings from user4!', '1998-06-05', 'https://example.com/user4_icon.jpg', 'Paris'),
-  (5, 'Hello everyone! I''m user5.', '1995-11-30', 'https://example.com/user5_icon.jpg', 'Sydney'),
-  (6, 'Hi, I''m user6. Nice to meet you!', '1993-07-20', 'https://example.com/user6_icon.jpg', 'Berlin'),
-  (7, 'Greetings, I''m user7!', '1997-04-18', 'https://example.com/user7_icon.jpg', 'Los Angeles');
+  (1, 'Hello, I''m user1!', '1990-01-15', 'http://localhost:8080/api/userIcon/user1_icon.png', 'Tokyo'),
+  (2, 'Nice to meet you! I''m user2.', '1985-09-22', 'http://localhost:8080/api/userIcon/user2_icon.png', 'New York'),
+  (3, 'Hello there! I''m user3.', '1992-03-10', 'http://localhost:8080/api/userIcon/user3_icon.png', 'London'),
+  (4, 'Greetings from user4!', '1998-06-05', 'http://localhost:8080/api/userIcon/user4_icon.png', 'Paris'),
+  (5, 'Hello everyone! I''m user5.', '1995-11-30', 'http://localhost:8080/api/userIcon/user5_icon.png', 'Sydney'),
+  (6, 'Hi, I''m user6. Nice to meet you!', '1993-07-20', 'http://localhost:8080/api/userIcon/user6_icon.png', 'Berlin'),
+  (7, 'Greetings, I''m user7!', '1997-04-18', 'http://localhost:8080/api/userIcon/user7_icon.png', 'Los Angeles');
 
 INSERT INTO tweet (content, created_at, user_id)
 VALUES

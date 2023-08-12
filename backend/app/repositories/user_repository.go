@@ -104,18 +104,28 @@ func (r *UserRepository) GetUsersByRelationship(userID int, relationshipType str
 	return userList, nil
 }
 
-func (r *UserRepository) GetUserInfo(userID int) (*models.User, error) {
+func (r *UserRepository) GetUserInfo(userID int) (*models.UserDetails, error) {
 	query := `
-		SELECT id, username
-		, (select count(*) from follow where follower_id = id) as following_num
-		, (select count(*) from follow where following_id = id) as follower_num
-		FROM users
-		WHERE id = $1`
+		SELECT u.id, u.username, ud.self_introduction, ud.date_of_birth, ud.icon_url, ud.location
+		, (SELECT count(*) FROM follow WHERE follower_id = u.id) AS following_num
+		, (SELECT count(*) FROM follow WHERE following_id = u.id) AS follower_num
+		FROM users u
+		JOIN user_details ud ON u.id = ud.user_id
+		WHERE u.id = $1`
 
-	user := &models.User{}
+	user := &models.UserDetails{}
 
 	row := r.db.QueryRow(query, userID)
-	err := row.Scan(&user.ID, &user.Username, &user.FollowingNum, &user.FollowerNum)
+	err := row.Scan(
+		&user.ID,
+		&user.Username,
+		&user.SelfIntroduction,
+		&user.DateOfBirth,
+		&user.IconUrl,
+		&user.Location,
+		&user.FollowingNum,
+		&user.FollowerNum,
+	)
 	if err != nil {
 		return nil, err
 	}

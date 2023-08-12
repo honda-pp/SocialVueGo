@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gin-contrib/sessions"
@@ -166,6 +168,12 @@ func (h *UserHandler) GetUserInfo(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"user": user})
+}
+
+func (h *UserHandler) GetUserIcon(c *gin.Context) {
+	iconPath := c.Param("iconPath")
+	imagePath := filepath.Join("strage", fmt.Sprintf(iconPath))
+	c.File(imagePath)
 }
 
 func HashPassword(user *models.User) error {

@@ -7,5 +7,5 @@ type UserRepository interface {
 	CreateUser(user *models.User) error
 	GetUserList() ([]*models.User, error)
 	GetUsersByRelationship(userID int, relationshipType string) ([]*models.User, error)
-	GetUserInfo(userID int) (*models.User, error)
+	GetUserInfo(userID int) (*models.UserDetails, error)
 }

@@ -27,7 +27,7 @@ func (u *UserUsecase) GetUsersByRelationship(userID int, relationshipType string
 	return u.UserRepository.GetUsersByRelationship(userID, relationshipType)
 }
 
-func (u *UserUsecase) GetUserInfo(userID int) (*models.User, error) {
+func (u *UserUsecase) GetUserInfo(userID int) (*models.UserDetails, error) {
 	return u.UserRepository.GetUserInfo(userID)
 }
 

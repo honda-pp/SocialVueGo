@@ -23,12 +23,8 @@ func (u *UserUsecase) GetUserList() ([]*models.User, error) {
 	return u.UserRepository.GetUserList()
 }
 
-func (u *UserUsecase) GetFollowingUserList(userID int) ([]*models.User, error) {
-	return u.UserRepository.GetFollowingUserList(userID)
-}
-
-func (u *UserUsecase) GetFollowerUserList(userID int) ([]*models.User, error) {
-	return u.UserRepository.GetFollowerUserList(userID)
+func (u *UserUsecase) GetUsersByRelationship(userID int, relationshipType string) ([]*models.User, error) {
+	return u.UserRepository.GetUsersByRelationship(userID, relationshipType)
 }
 
 func (u *UserUsecase) GetUserInfo(userID int) (*models.User, error) {

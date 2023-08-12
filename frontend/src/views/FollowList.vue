@@ -1,6 +1,6 @@
 <template>
   <div class="user-list">
-    <h1>{{ listTitle }}</h1>
+    <h1>{{ title }}</h1>
     <ul>
       <li v-for="user in userList" :key="user.id">
         <router-link :to="`/${user.id}`" class="user-link">
@@ -23,8 +23,8 @@ import { followUser, unfollowUser, getFollowingIDs, getFollowerIDs } from '../ap
 import { getUserList } from '../api/userApi';
 
 const route = useRoute();
-const listType = ref(route.name);
-const listTitle = ref(`${listType.value} List`);
+const relationshipType = ref(route.name);
+const title = ref(`${relationshipType.value} List`);
 const userList = ref([]);
 const loggedInUserId = parseInt(localStorage.getItem('userID'));
 
@@ -32,16 +32,16 @@ onMounted(async () => {
   try {
     await Promise.all([fetchUserList(), fetchFollowingUsers(), fetchFollowers()]);
   } catch (error) {
-    console.error(`Error fetching ${listType.value} list:`, error);
+    console.error(`Error fetching ${relationshipType.value} list:`, error);
   }
 });
 
 const fetchUserList = async () => {
   try {
-    const response = await getUserList(route.params.userID, listType.value);
+    const response = await getUserList(route.params.userID, relationshipType.value);
     userList.value = response.userList;
   } catch (error) {
-    console.error(`Failed to fetch ${listType.value} list:`, error);
+    console.error(`Failed to fetch ${relationshipType.value} list:`, error);
   }
 };
 

@@ -55,11 +55,11 @@ export const signupUser = async (userData) => {
   }
 };
 
-export const getUserList = async (userID, listType) => {
+export const getUserList = async (userID, relationshipType) => {
   let path = ``
-  if (listType == null) {
+  if (relationshipType == null) {
     path = `/userList`
-  } else if (listType === 'Follower') {
+  } else if (relationshipType === 'Follower') {
     path = `/followerUserList/${userID}`
   } else {
     path = `/followingUserList/${userID}`

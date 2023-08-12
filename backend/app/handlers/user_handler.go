@@ -123,7 +123,7 @@ func (h *UserHandler) GetFollowingUserList(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
 		return
 	}
-	userList, err := h.UserUsecase.GetFollowingUserList(userID)
+	userList, err := h.UserUsecase.GetUsersByRelationship(userID, "following")
 	if err != nil {
 		logger.LogError("Failed to get user list: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})
@@ -140,7 +140,7 @@ func (h *UserHandler) GetFollowerUserList(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
 		return
 	}
-	userList, err := h.UserUsecase.GetFollowerUserList(userID)
+	userList, err := h.UserUsecase.GetUsersByRelationship(userID, "follower")
 	if err != nil {
 		logger.LogError("Failed to get user list: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})

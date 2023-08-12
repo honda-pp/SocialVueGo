@@ -57,6 +57,72 @@ func (r *UserRepository) GetUserList() ([]*models.User, error) {
 	return userList, nil
 }
 
+func (r *UserRepository) GetFollowingUserList(userID int) ([]*models.User, error) {
+	query := `
+		SELECT id, username
+		FROM users
+		JOIN follow ON $1 = follower_id
+		WHERE id = following_id
+		order by id desc
+	`
+
+	rows, err := r.db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var userList []*models.User
+	for rows.Next() {
+		user := &models.User{}
+		err = rows.Scan(&user.ID, &user.Username)
+		if err != nil {
+			return nil, err
+		}
+		userList = append(userList, user)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return userList, nil
+}
+
+func (r *UserRepository) GetFollowerUserList(userID int) ([]*models.User, error) {
+	query := `
+		SELECT id, username
+		FROM users
+		JOIN follow ON $1 = following_id
+		WHERE id = follower_id
+		order by id desc
+	`
+
+	rows, err := r.db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var userList []*models.User
+	for rows.Next() {
+		user := &models.User{}
+		err = rows.Scan(&user.ID, &user.Username)
+		if err != nil {
+			return nil, err
+		}
+		userList = append(userList, user)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return userList, nil
+}
+
 func (r *UserRepository) GetUserInfo(userID int) (*models.User, error) {
 	query := `
 		SELECT id, username

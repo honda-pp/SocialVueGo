@@ -116,6 +116,40 @@ func (h *UserHandler) GetUserList(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"userList": userList})
 }
 
+func (h *UserHandler) GetFollowingUserList(c *gin.Context) {
+	userIDStr := c.Param("userID")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
+		return
+	}
+	userList, err := h.UserUsecase.GetFollowingUserList(userID)
+	if err != nil {
+		logger.LogError("Failed to get user list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"userList": userList})
+}
+
+func (h *UserHandler) GetFollowerUserList(c *gin.Context) {
+	userIDStr := c.Param("userID")
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
+		return
+	}
+	userList, err := h.UserUsecase.GetFollowerUserList(userID)
+	if err != nil {
+		logger.LogError("Failed to get user list: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user list"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"userList": userList})
+}
+
 func (h *UserHandler) GetUserInfo(c *gin.Context) {
 	userIDStr := c.Param("userID")
 	userID, err := strconv.Atoi(userIDStr)

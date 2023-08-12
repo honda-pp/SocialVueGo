@@ -55,9 +55,17 @@ export const signupUser = async (userData) => {
   }
 };
 
-export const getUserList = async () => {
+export const getUserList = async (userID, listType) => {
+  let path = ``
+  if (listType == null) {
+    path = `/userList`
+  } else if (listType === 'Follower') {
+    path = `/followerUserList/${userID}`
+  } else {
+    path = `/followingUserList/${userID}`
+  }
   try {
-    const response = await userApi.get(`/userList`);
+    const response = await userApi.get(path);
     return response.data;
   } catch (error) {
     throw error.response.data;

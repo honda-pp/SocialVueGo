@@ -1,28 +1,26 @@
 <template>
-  <div class="user-profile">
-    <div class="user-info">
-      <img :src="user.iconUrl" alt="User Icon" class="user-icon">
-      <div class="username">{{ user.username }}</div>
-      <div class="self-introduction">{{ user.selfIntroduction }}</div>
-      <div class="follower-info">
-        <router-link :to="`/${user.id}/following`" class="follower-link">
-          {{ user.followingNum }} Following
-        </router-link>
-        <router-link :to="`/${user.id}/follower`" class="follower-link">
-          {{ user.followerNum }} Followers
-        </router-link>
-      </div>
+  <div class="user-info">
+    <img :src="user.iconUrl" alt="User Icon" class="user-icon">
+    <div class="username">{{ user.username }}</div>
+    <div class="self-introduction">{{ user.selfIntroduction }}</div>
+    <div class="follower-info">
+      <router-link :to="`/${user.id}/following`" class="follower-link">
+        {{ user.followingNum }} Following
+      </router-link>
+      <router-link :to="`/${user.id}/follower`" class="follower-link">
+        {{ user.followerNum }} Followers
+      </router-link>
     </div>
-    <ul class="tweet-list">
-      <li v-for="tweet in tweetList" :key="tweet.tweet_id" class="tweet-item">
-        <div class="tweet-content">{{ tweet.content }}</div>
-        <div class="tweet-info">
-          <span class="tweet-username">{{ tweet.username }}</span>
-          <span class="tweet-date">{{ formatDate(tweet.createdAt) }}</span>
-        </div>
-      </li>
-    </ul>
   </div>
+  <ul class="tweet-list">
+    <li v-for="tweet in tweetList" :key="tweet.tweet_id" class="tweet-item">
+      <div class="tweet-content">{{ tweet.content }}</div>
+      <div class="tweet-info">
+        <span class="tweet-username">{{ tweet.username }}</span>
+        <span class="tweet-date">{{ formatDate(tweet.createdAt) }}</span>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script setup>
@@ -65,13 +63,6 @@ const fetchTweetList = async (userID) => {
 </script>
 
 <style scoped>
-.user-profile {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-
 .user-icon {
   width: 120px;
   height: 120px;

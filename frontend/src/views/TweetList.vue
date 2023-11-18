@@ -1,37 +1,35 @@
 <template>
-  <div class="tweet">
-    <h1>Tweet List</h1>
-    <ul class="tweet-list">
-      <li v-for="tweet in tweetList" :key="tweet.tweet_id" class="tweet-item">
-        <div class="tweet-content">{{ tweet.content }}</div>
-        <div class="tweet-info">
-          <router-link :to="`/${tweet.userID}`" class="user-link">
-            <span class="tweet-username">{{ tweet.username }}</span>
-          </router-link>
-          <span class="tweet-date">{{ formatDate(tweet.createdAt) }}</span>
-        </div>
-      </li>
-    </ul>
+  <h1>Tweet List</h1>
+  <button @click="showTweetPopup">Create Tweet</button>
 
-    <button @click="showTweetPopup">Create Tweet</button>
-
-    <teleport to="body">
-      <div v-if="isTweetPopupVisible" class="popup-overlay">
-        <div class="popup-content">
-          <button class="close-button" @click="hideTweetPopup">&times;</button>
-
-          <div class="input-group">
-            <label for="tweetContent">Tweet Content:</label>
-            <textarea id="tweetContent" v-model="tweetContent"></textarea>
-          </div>
-
-          <button @click="createNewTweet">Create</button>
-
-          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-        </div>
+  <ul class="tweet-list">
+    <li v-for="tweet in tweetList" :key="tweet.tweet_id" class="tweet-item">
+      <div class="tweet-content">{{ tweet.content }}</div>
+      <div class="tweet-info">
+        <router-link :to="`/${tweet.userID}`" class="user-link">
+          <span class="tweet-username">{{ tweet.username }}</span>
+        </router-link>
+        <span class="tweet-date">{{ formatDate(tweet.createdAt) }}</span>
       </div>
-    </teleport>
-  </div>
+    </li>
+  </ul>
+
+  <teleport to="body">
+    <div v-if="isTweetPopupVisible" class="popup-overlay">
+      <div class="popup-content">
+        <button class="close-button" @click="hideTweetPopup">&times;</button>
+
+        <div class="input-group">
+          <label for="tweetContent">Tweet Content:</label>
+          <textarea id="tweetContent" v-model="tweetContent"></textarea>
+        </div>
+
+        <button @click="createNewTweet">Create</button>
+
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+      </div>
+    </div>
+  </teleport>
 </template>
 
 <script setup>
@@ -97,12 +95,6 @@ const enableScroll = () => {
 </script>
 
 <style>
-.tweet {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
 .tweet-list {
   margin-top: 20px;
   padding: 0;

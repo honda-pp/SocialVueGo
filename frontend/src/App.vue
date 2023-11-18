@@ -47,8 +47,12 @@ nav ul li {
 }
 
 main {
-  margin-bottom: 50px;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  padding: 10px;
 }
+
 footer {
   background-color: #f2f2f2;
   position: fixed;

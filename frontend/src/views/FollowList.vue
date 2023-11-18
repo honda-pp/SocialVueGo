@@ -1,8 +1,6 @@
 <template>
-  <div class="user-list">
-    <h1>{{ title }}</h1>
-      <UserList :userList="userList" />
-  </div>
+  <h1>{{ title }}</h1>
+  <UserList :userList="userList" />
 </template>
 
 <script setup>
@@ -65,11 +63,6 @@ const fetchFollowers = async () => {
 h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
 }
 
 </style>

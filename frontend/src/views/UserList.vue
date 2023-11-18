@@ -1,8 +1,6 @@
 <template>
-  <div class="user-list">
-    <h1>{{ title }}</h1>
-      <UserList :userList="userList" />
-  </div>
+  <h1>{{ title }}</h1>
+  <UserList :userList="userList" />
 </template>
 
 <script setup>

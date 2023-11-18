@@ -1,18 +1,16 @@
 <template>
-  <div class="home-container">
-    <div>
-      <p>Ready to get started?</p>
-      <div class="cta-buttons">
-        <button @click="showLoginPopup">Login</button>
-        <button @click="showSignupPopup">Signup</button>
-      </div>
+  <div>
+    <p>Ready to get started?</p>
+    <div class="cta-buttons">
+      <button @click="showLoginPopup">Login</button>
+      <button @click="showSignupPopup">Signup</button>
     </div>
-
-    <teleport to="body">
-      <login-popup v-if="isLoginPopupVisible"></login-popup>
-      <signup-popup v-if="isSignupPopupVisible"></signup-popup>
-    </teleport>
   </div>
+
+  <teleport to="body">
+    <login-popup v-if="isLoginPopupVisible"></login-popup>
+    <signup-popup v-if="isSignupPopupVisible"></signup-popup>
+  </teleport>
 </template>
 
 <script setup>
@@ -37,13 +35,6 @@ const showSignupPopup = () => {
 </script>
 
 <style>
-.home-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-
 p {
   font-size: 1.2rem;
   margin-bottom: 10px;

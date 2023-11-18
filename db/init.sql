@@ -2,16 +2,11 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE CHECK (username <> ''),
   email VARCHAR(100) NOT NULL UNIQUE CHECK (email <> ''),
-  password_hash CHAR(60) NOT NULL CHECK (password_hash <> '')
-);
-
-CREATE TABLE user_details (
-  user_id INT PRIMARY KEY,
+  password_hash CHAR(60) NOT NULL CHECK (password_hash <> ''),
   self_introduction TEXT,
   date_of_birth DATE,
   icon_url VARCHAR(255),
-  location VARCHAR(100),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT ON UPDATE CASCADE
+  location VARCHAR(100)
 );
 
 CREATE TABLE tweet (
@@ -46,25 +41,15 @@ CREATE TABLE retweet (
   FOREIGN KEY (original_tweet_id) REFERENCES tweet (tweet_id)
 );
 
-INSERT INTO users (username, email, password_hash)
+INSERT INTO users (username, email, password_hash, self_introduction, date_of_birth, icon_url, location)
 VALUES
-  ('user1', 'user1@example.com', '$2a$10$1IbewfZwgFNMJiU6D4KXgeL72uMctFaDRkouNhxHdFJddJ2Fx6Dd2'),
-  ('user2', 'user2@example.com', '$2a$10$FzWZxcRDBfWJZCfBN9BQ6.Yvjl98B1mdtv7M7CbrW9kQZVpfrK.E2'),
-  ('user3', 'user3@example.com', '$2a$10$BO95bE0G17LNsDeOKgOxEeBujNJG7StOKS0dOROvagbXS70rKRdZC'),
-  ('user4', 'user4@example.com', '$2a$10$M5hzbYL8h3X7qw0AbKS2P.uPH9U6qp56OW5LkcnYLKqLJ2UNFXRim'),
-  ('user5', 'user5@example.com', '$2a$10$B5L8fuIW7jhPn6YFZB6MsuguavFVYBOBaG6q/bUtjr4.ifu8E2wza'),
-  ('user6', 'user6@example.com', '$2a$10$CzX7d65EOq53ZMPtqsz7xO6tk6r1exstMe0tBpZoVbSGmkhRrOWpa'),
-  ('user7', 'user7@example.com', '$2a$10$YL9CmzgqjU17pp4tZUGiEuwclFzKSyGYeAzrP2GwIWxSNIdiLlCJ2');
-
-INSERT INTO user_details (user_id, self_introduction, date_of_birth, icon_url, location)
-VALUES
-  (1, 'Hello, I''m user1!', '1990-01-15', 'http://localhost:8080/api/userIcon/user1_icon.png', 'Tokyo'),
-  (2, 'Nice to meet you! I''m user2.', '1985-09-22', 'http://localhost:8080/api/userIcon/user2_icon.png', 'New York'),
-  (3, 'Hello there! I''m user3.', '1992-03-10', 'http://localhost:8080/api/userIcon/user3_icon.png', 'London'),
-  (4, 'Greetings from user4!', '1998-06-05', 'http://localhost:8080/api/userIcon/user4_icon.png', 'Paris'),
-  (5, 'Hello everyone! I''m user5.', '1995-11-30', 'http://localhost:8080/api/userIcon/user5_icon.png', 'Sydney'),
-  (6, 'Hi, I''m user6. Nice to meet you!', '1993-07-20', 'http://localhost:8080/api/userIcon/user6_icon.png', 'Berlin'),
-  (7, 'Greetings, I''m user7!', '1997-04-18', 'http://localhost:8080/api/userIcon/user7_icon.png', 'Los Angeles');
+  ('user1', 'user1@example.com', '$2a$10$1IbewfZwgFNMJiU6D4KXgeL72uMctFaDRkouNhxHdFJddJ2Fx6Dd2', 'Hello, I''m user1!', '1990-01-15', 'http://localhost:8080/api/userIcon/user1_icon.png', 'Tokyo'),
+  ('user2', 'user2@example.com', '$2a$10$FzWZxcRDBfWJZCfBN9BQ6.Yvjl98B1mdtv7M7CbrW9kQZVpfrK.E2', 'Nice to meet you! I''m user2.', '1985-09-22', 'http://localhost:8080/api/userIcon/user2_icon.png', 'New York'),
+  ('user3', 'user3@example.com', '$2a$10$BO95bE0G17LNsDeOKgOxEeBujNJG7StOKS0dOROvagbXS70rKRdZC', 'Hello there! I''m user3.', '1992-03-10', 'http://localhost:8080/api/userIcon/user3_icon.png', 'London'),
+  ('user4', 'user4@example.com', '$2a$10$M5hzbYL8h3X7qw0AbKS2P.uPH9U6qp56OW5LkcnYLKqLJ2UNFXRim', 'Greetings from user4!', '1998-06-05', 'http://localhost:8080/api/userIcon/user4_icon.png', 'Paris'),
+  ('user5', 'user5@example.com', '$2a$10$B5L8fuIW7jhPn6YFZB6MsuguavFVYBOBaG6q/bUtjr4.ifu8E2wza', 'Hello everyone! I''m user5.', '1995-11-30', 'http://localhost:8080/api/userIcon/user5_icon.png', 'Sydney'),
+  ('user6', 'user6@example.com', '$2a$10$CzX7d65EOq53ZMPtqsz7xO6tk6r1exstMe0tBpZoVbSGmkhRrOWpa', 'Hi, I''m user6. Nice to meet you!', '1993-07-20', 'http://localhost:8080/api/userIcon/user6_icon.png', 'Berlin'),
+  ('user7', 'user7@example.com', '$2a$10$YL9CmzgqjU17pp4tZUGiEuwclFzKSyGYeAzrP2GwIWxSNIdiLlCJ2', 'Greetings, I''m user7!', '1997-04-18', 'http://localhost:8080/api/userIcon/user7_icon.png', 'Los Angeles');
 
 INSERT INTO tweet (content, created_at, user_id)
 VALUES

@@ -1,28 +1,18 @@
 <template>
   <div class="user-list">
-    <h1>User List</h1>
-    <ul>
-      <li v-for="user in userList" :key="user.id">
-        <router-link :to="`/${user.id}`" class="user-link">
-          <span>{{ user.username }}</span>
-        </router-link>
-        <button @click="follow(user.id)" v-if="!user.followed && !isLoggedInUser(user.id)">Follow</button>
-        <button @click="unfollow(user.id)" v-else-if="user.followed && !isLoggedInUser(user.id)">Unfollow</button>
-        <span class="followed-label" v-if="user.followedByLoggedInUser || isLoggedInUser(user.id)">
-          {{ isLoggedInUser(user.id) ? 'You' : 'Followed' }}
-        </span>
-      </li>
-    </ul>
+    <h1>{{ title }}</h1>
+      <UserListItem :userList="userList" />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { followUser, unfollowUser, getFollowingIDs, getFollowerIDs } from '../api/followApi';
+import { getFollowingIDs, getFollowerIDs } from '../api/followApi';
 import { getUserList } from '../api/userApi';
+import UserListItem from '../components/UserListItem.vue';
 
+const title = ref(`User List`);
 const userList = ref([]);
-const loggedInUserId = parseInt(localStorage.getItem('userID'));
 
 onMounted(async () => {
   try {
@@ -65,47 +55,9 @@ const fetchFollowers = async () => {
   }
 };
 
-const follow = async (userId) => {
-  try {
-    await followUser(userId);
-    const userIndex = userList.value.findIndex((user) => user.id === userId);
-    if (userIndex !== -1) {
-      userList.value[userIndex].followed = true;
-    }
-  } catch (error) {
-    console.error('Failed to follow user:', error);
-  }
-};
-
-const unfollow = async (userId) => {
-  try {
-    await unfollowUser(userId);
-    const userIndex = userList.value.findIndex((user) => user.id === userId);
-    if (userIndex !== -1) {
-      userList.value[userIndex].followed = false;
-    }
-  } catch (error) {
-    console.error('Failed to unfollow user:', error);
-  }
-};
-
-const isLoggedInUser = (userId) => {
-  return loggedInUserId === userId;
-};
 </script>
 
 <style>
-.user-list {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.user-link {
-  text-decoration: none;
-  color: #3498db;
-  margin-right: 20px;
-}
 
 h1 {
   font-size: 2.5rem;
@@ -117,17 +69,4 @@ ul {
   padding: 0;
 }
 
-li {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-button {
-  margin-right: 10px;
-}
-
-.followed-label {
-  color: green;
-  font-weight: bold;
-}
 </style>

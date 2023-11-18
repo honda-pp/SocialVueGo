@@ -32,7 +32,7 @@ func (r *UserRepository) GetUserFromUsername(user *models.User) error {
 }
 
 func (r *UserRepository) GetUserList() ([]*models.User, error) {
-	query := "SELECT id, username FROM users order by id desc"
+	query := "SELECT u.id, u.username, u.icon_url FROM users u order by u.id desc"
 
 	rows, err := r.db.Query(query)
 	if err != nil {
@@ -43,7 +43,7 @@ func (r *UserRepository) GetUserList() ([]*models.User, error) {
 	var userList []*models.User
 	for rows.Next() {
 		user := &models.User{}
-		err = rows.Scan(&user.ID, &user.Username)
+		err = rows.Scan(&user.ID, &user.Username, &user.IconUrl)
 		if err != nil {
 			return nil, err
 		}
@@ -62,7 +62,7 @@ func (r *UserRepository) GetUsersByRelationship(userID int, relationshipType str
 	var query string
 	if relationshipType == "following" {
 		query = `
-			SELECT u.id, u.username
+			SELECT u.id, u.username, u.icon_url
 			FROM users u
 			JOIN follow f ON $1 = f.follower_id
 			WHERE u.id = f.following_id
@@ -70,7 +70,7 @@ func (r *UserRepository) GetUsersByRelationship(userID int, relationshipType str
 		`
 	} else if relationshipType == "follower" {
 		query = `
-			SELECT u.id, u.username
+			SELECT u.id, u.username, u.icon_url
 			FROM users u
 			JOIN follow f ON $1 = f.following_id
 			WHERE u.id = f.follower_id
@@ -89,7 +89,7 @@ func (r *UserRepository) GetUsersByRelationship(userID int, relationshipType str
 	var userList []*models.User
 	for rows.Next() {
 		user := &models.User{}
-		err = rows.Scan(&user.ID, &user.Username)
+		err = rows.Scan(&user.ID, &user.Username, &user.IconUrl)
 		if err != nil {
 			return nil, err
 		}
@@ -106,11 +106,10 @@ func (r *UserRepository) GetUsersByRelationship(userID int, relationshipType str
 
 func (r *UserRepository) GetUserInfo(userID int) (*models.UserDetails, error) {
 	query := `
-		SELECT u.id, u.username, ud.self_introduction, ud.date_of_birth, ud.icon_url, ud.location
+		SELECT u.id, u.username, u.self_introduction, u.date_of_birth, u.icon_url, u.location
 		, (SELECT count(*) FROM follow WHERE follower_id = u.id) AS following_num
 		, (SELECT count(*) FROM follow WHERE following_id = u.id) AS follower_num
 		FROM users u
-		JOIN user_details ud ON u.id = ud.user_id
 		WHERE u.id = $1`
 
 	user := &models.UserDetails{}

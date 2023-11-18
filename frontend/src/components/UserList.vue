@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="user in userList" :key="user.id" class="user">
+    <li v-for="user in userList" :key="user.id" class="user-list">
       <router-link :to="`/${user.id}`" class="user-link">
         <img :src="user.iconUrl" alt="User Icon" class="user-icon">
         <span class="user-name">{{ user.username }}</span>
@@ -57,13 +57,10 @@ const isLoggedInUser = (userId) => {
 
 <style>
 .user-list {
+  display: flex;
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-}
-
-.user {
-  display: flex;
   align-items: center;
   height: 50px;
 }
@@ -81,16 +78,6 @@ const isLoggedInUser = (userId) => {
 .user-name {
   margin-left: 10px;
   vertical-align: 50%;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
 }
 
 button {

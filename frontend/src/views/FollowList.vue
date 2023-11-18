@@ -60,9 +60,4 @@ const fetchFollowers = async () => {
 
 <style>
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
 </style>

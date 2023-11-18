@@ -36,6 +36,26 @@ header {
   justify-content: space-between;
 }
 
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+li {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
 nav ul {
   list-style: none;
   display: flex;

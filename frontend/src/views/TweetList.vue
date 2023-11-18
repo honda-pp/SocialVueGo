@@ -135,21 +135,6 @@ const enableScroll = () => {
   margin-right: 20px;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
 span {
   margin-right: 10px;
 }

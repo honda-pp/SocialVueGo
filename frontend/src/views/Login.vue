@@ -35,10 +35,6 @@ const showSignupPopup = () => {
 </script>
 
 <style>
-p {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
 
 .cta-buttons {
   margin-top: 20px;

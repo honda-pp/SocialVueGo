@@ -31,11 +31,6 @@ const fetchUserInfo = async () => {
 
 <style>
 
-p {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
 .router-link {
   display: block;
   margin-top: 10px;

@@ -1,7 +1,7 @@
 <template>
   <div class="user-list">
     <h1>{{ title }}</h1>
-      <UserListItem :userList="userList" />
+      <UserList :userList="userList" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getFollowingIDs, getFollowerIDs } from '../api/followApi';
 import { getUserList } from '../api/userApi';
-import UserListItem from '../components/UserListItem.vue';
+import UserList from '../components/UserList.vue';
 
 const route = useRoute();
 const relationshipType = ref(route.name);

@@ -13,6 +13,8 @@
     <main>
       <router-view></router-view>
     </main>
+    <footer>
+    </footer>
   </div>
 </template>
 
@@ -44,4 +46,15 @@ nav ul {
 nav ul li {
   display: inline;
 }
+
+footer {
+  background-color: #f2f2f2;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+}
+
 </style>

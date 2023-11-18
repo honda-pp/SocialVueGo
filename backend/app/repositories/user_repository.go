@@ -32,7 +32,7 @@ func (r *UserRepository) GetUserFromUsername(user *models.User) error {
 }
 
 func (r *UserRepository) GetUserList() ([]*models.User, error) {
-	query := "SELECT id, username FROM users order by id desc"
+	query := "SELECT u.id, u.username, ud.icon_url FROM users u JOIN user_details ud ON u.id = ud.user_id order by u.id desc"
 
 	rows, err := r.db.Query(query)
 	if err != nil {
@@ -43,7 +43,7 @@ func (r *UserRepository) GetUserList() ([]*models.User, error) {
 	var userList []*models.User
 	for rows.Next() {
 		user := &models.User{}
-		err = rows.Scan(&user.ID, &user.Username)
+		err = rows.Scan(&user.ID, &user.Username, &user.IconUrl)
 		if err != nil {
 			return nil, err
 		}
@@ -62,17 +62,19 @@ func (r *UserRepository) GetUsersByRelationship(userID int, relationshipType str
 	var query string
 	if relationshipType == "following" {
 		query = `
-			SELECT u.id, u.username
+			SELECT u.id, u.username, ud.icon_url
 			FROM users u
 			JOIN follow f ON $1 = f.follower_id
+			JOIN user_details ud ON u.id = ud.user_id
 			WHERE u.id = f.following_id
 			ORDER BY u.id DESC
 		`
 	} else if relationshipType == "follower" {
 		query = `
-			SELECT u.id, u.username
+			SELECT u.id, u.username, ud.icon_url
 			FROM users u
 			JOIN follow f ON $1 = f.following_id
+			JOIN user_details ud ON u.id = ud.user_id
 			WHERE u.id = f.follower_id
 			ORDER BY u.id DESC
 		`
@@ -89,7 +91,7 @@ func (r *UserRepository) GetUsersByRelationship(userID int, relationshipType str
 	var userList []*models.User
 	for rows.Next() {
 		user := &models.User{}
-		err = rows.Scan(&user.ID, &user.Username)
+		err = rows.Scan(&user.ID, &user.Username, &user.IconUrl)
 		if err != nil {
 			return nil, err
 		}

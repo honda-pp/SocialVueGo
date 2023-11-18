@@ -2,15 +2,16 @@
   <div class="user-list">
     <h1>{{ title }}</h1>
     <ul>
-      <li v-for="user in userList" :key="user.id">
-        <router-link :to="`/${user.id}`" class="user-link">
-          <span>{{ user.username }}</span>
-        </router-link>
-        <button @click="follow(user.id)" v-if="!user.followed && !isLoggedInUser(user.id)">Follow</button>
-        <button @click="unfollow(user.id)" v-else-if="user.followed && !isLoggedInUser(user.id)">Unfollow</button>
-        <span class="followed-label" v-if="user.followedByLoggedInUser || isLoggedInUser(user.id)">
-          {{ isLoggedInUser(user.id) ? 'You' : 'Followed' }}
-        </span>
+      <li v-for="user in userList" :key="user.id" class="user">
+          <router-link :to="`/${user.id}`" class="user-link">
+            <img :src="user.iconUrl" alt="User Icon" class="user-icon">
+            <span class="user-name">{{ user.username }}</span>
+          </router-link>
+          <button @click="follow(user.id)" v-if="!user.followed && !isLoggedInUser(user.id)">Follow</button>
+          <button @click="unfollow(user.id)" v-else-if="user.followed && !isLoggedInUser(user.id)">Unfollow</button>
+          <span class="followed-label" v-if="user.followedByLoggedInUser || isLoggedInUser(user.id)">
+            {{ isLoggedInUser(user.id) ? 'You' : 'Followed' }}
+          </span>
       </li>
     </ul>
   </div>
@@ -105,10 +106,25 @@ const isLoggedInUser = (userId) => {
   padding: 20px;
 }
 
+.user {
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+
 .user-link {
   text-decoration: none;
   color: #3498db;
   margin-right: 20px;
+}
+
+.user-icon {
+  width: 50px;
+}
+
+.user-name {
+  margin-left: 10px;
+  vertical-align: 50%;
 }
 
 h1 {

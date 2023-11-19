@@ -27,7 +27,7 @@ func (r *TweetRepository) getTweetListWithQuery(query string, args ...interface{
 	var tweetList []*models.Tweet
 	for rows.Next() {
 		tweet := &models.Tweet{}
-		err = rows.Scan(&tweet.ID, &tweet.Content, &tweet.CreatedAt, &tweet.UserID, &tweet.Username)
+		err = rows.Scan(&tweet.ID, &tweet.Content, &tweet.CreatedAt, &tweet.UserID, &tweet.Username, &tweet.IconUrl)
 		if err != nil {
 			return nil, err
 		}
@@ -44,7 +44,7 @@ func (r *TweetRepository) getTweetListWithQuery(query string, args ...interface{
 
 func (r *TweetRepository) GetTweetList() ([]*models.Tweet, error) {
 	query := `
-		SELECT t.tweet_id, t.content, t.created_at, t.user_id, u.username
+		SELECT t.tweet_id, t.content, t.created_at, t.user_id, u.username, u.icon_url
 		FROM tweet t
 		JOIN users u ON t.user_id = u.id
 		ORDER BY t.created_at DESC
@@ -55,7 +55,7 @@ func (r *TweetRepository) GetTweetList() ([]*models.Tweet, error) {
 
 func (r *TweetRepository) GetTweetListByUserID(userID int) ([]*models.Tweet, error) {
 	query := `
-		SELECT t.tweet_id, t.content, t.created_at, t.user_id, u.username
+		SELECT t.tweet_id, t.content, t.created_at, t.user_id, u.username, u.icon_url
 		FROM tweet t
 		JOIN users u ON t.user_id = u.id
 		WHERE u.id = $1

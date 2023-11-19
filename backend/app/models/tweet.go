@@ -8,4 +8,5 @@ type Tweet struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UserID    int       `json:"userID"`
 	Username  string    `json:"username"`
+	IconUrl   string    `json:"iconUrl"`
 }

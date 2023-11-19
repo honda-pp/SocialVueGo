@@ -2,8 +2,8 @@
   <ul>
     <li v-for="user in userList" :key="user.id" class="user-list">
       <router-link :to="`/${user.id}`" class="user-link">
-        <img :src="user.iconUrl" alt="User Icon" class="user-icon">
-        <span class="user-name">{{ user.username }}</span>
+        <img :src="user.iconUrl" alt="User Icon" class="list-user-icon">
+        <span class="list-user-name">{{ user.username }}</span>
       </router-link>
       <button @click="follow(user.id)" v-if="!user.followed && !isLoggedInUser(user.id)">Follow</button>
       <button @click="unfollow(user.id)" v-else-if="user.followed && !isLoggedInUser(user.id)">Unfollow</button>
@@ -71,11 +71,11 @@ const isLoggedInUser = (userId) => {
   margin-right: 20px;
 }
 
-.user-icon {
+.list-user-icon {
   width: 50px;
 }
 
-.user-name {
+.list-user-name {
   margin-left: 10px;
   vertical-align: 50%;
 }

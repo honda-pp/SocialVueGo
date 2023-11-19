@@ -13,6 +13,7 @@
     <main>
       <router-view></router-view>
     </main>
+    <footer></footer>
   </div>
 </template>
 
@@ -35,6 +36,26 @@ header {
   justify-content: space-between;
 }
 
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+li {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
 nav ul {
   list-style: none;
   display: flex;
@@ -44,4 +65,22 @@ nav ul {
 nav ul li {
   display: inline;
 }
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  padding: 10px;
+}
+
+footer {
+  background-color: #f2f2f2;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+}
+
 </style>

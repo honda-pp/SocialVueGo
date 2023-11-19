@@ -1,9 +1,7 @@
 <template>
-  <div class="home-container">
-    <p>
-      You are currently logged in as {{ username }}.
-    </p>
-  </div>
+  <p>
+    You are currently logged in as {{ username }}.
+  </p>
 </template>
 
 <script setup>
@@ -32,17 +30,6 @@ const fetchUserInfo = async () => {
 </script>
 
 <style>
-.home-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-
-p {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
 
 .router-link {
   display: block;

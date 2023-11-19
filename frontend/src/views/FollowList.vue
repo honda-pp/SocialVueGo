@@ -1,8 +1,6 @@
 <template>
-  <div class="user-list">
-    <h1>{{ title }}</h1>
-      <UserListItem :userList="userList" />
-  </div>
+  <h1>{{ title }}</h1>
+  <UserList :userList="userList" />
 </template>
 
 <script setup>
@@ -10,7 +8,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getFollowingIDs, getFollowerIDs } from '../api/followApi';
 import { getUserList } from '../api/userApi';
-import UserListItem from '../components/UserListItem.vue';
+import UserList from '../components/UserList.vue';
 
 const route = useRoute();
 const relationshipType = ref(route.name);
@@ -61,15 +59,5 @@ const fetchFollowers = async () => {
 </script>
 
 <style>
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
 
 </style>

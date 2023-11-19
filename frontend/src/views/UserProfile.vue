@@ -4,6 +4,10 @@
     <EditProfile v-if="mounted && showEditButon" :currentUserData="user" />
     <div class="username">{{ user.username }}</div>
     <div class="self-introduction">{{ user.selfIntroduction }}</div>
+    <div class="user-info-row">
+      <span class="date-of-birth">{{ user.dateOfBirth ? user.dateOfBirth.slice(0, 10) : '' }}</span>
+      <span class="user-location">{{ user.location }}</span>
+    </div>
     <div class="follower-info">
       <router-link :to="`/${user.id}/following`" class="follower-link">
         {{ user.followingNum }} Following
@@ -77,6 +81,11 @@ const fetchTweetList = async (userID) => {
 .self-introduction {
   font-size: 1.2rem;
   margin-bottom: 20px;
+}
+
+.user-info-row {
+  color: #777;
+  margin-right: 20px;
 }
 
 .follower-info {

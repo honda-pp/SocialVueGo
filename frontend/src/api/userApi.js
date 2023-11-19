@@ -71,3 +71,12 @@ export const getUserList = async (userID, relationshipType) => {
     throw error.response.data;
   }
 };
+
+export const updateUserProfile = async (userData) => {
+  try {
+    const response = await userApi.post(`/updateUserProfile`, userData);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+}

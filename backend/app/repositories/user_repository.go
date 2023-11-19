@@ -138,3 +138,11 @@ func (r *UserRepository) CreateUser(user *models.User) error {
 
 	return err
 }
+
+func (r *UserRepository) UpdateUserProfile(user *models.User) error {
+	query := "UPDATE users SET username = $1, self_introduction = $2, date_of_birth = $3, location = $4 WHERE id = $5"
+
+	_, err := r.db.Exec(query, user.Username, user.SelfIntroduction, user.DateOfBirth, user.Location, user.ID)
+
+	return err
+}

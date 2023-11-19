@@ -80,10 +80,6 @@ const isLoggedInUser = (userId) => {
   vertical-align: 50%;
 }
 
-button {
-  margin-right: 10px;
-}
-
 .followed-label {
   color: green;
   font-weight: bold;

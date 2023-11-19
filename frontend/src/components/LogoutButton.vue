@@ -1,5 +1,5 @@
 <template>
-  <button @click="logout">Logout</button>
+  <button id="logout-button" @click="logout">Logout</button>
 </template>
 
 <script setup>
@@ -20,18 +20,9 @@ const logout = async () => {
 </script>
 
 <style>
-button {
-  padding: 10px 20px;
-  margin: 0 10px;
-  border: none;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  border-radius: 5px;
-}
 
-button:hover {
-  background-color: #0056b3;
+#logout-button {
+  height: 40px;
+  width: 100px;
 }
 </style>

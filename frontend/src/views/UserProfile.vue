@@ -1,8 +1,13 @@
 <template>
   <div class="user-info">
     <img :src="user.iconUrl" alt="User Icon" class="user-icon">
+    <EditProfile v-if="mounted && showEditButon" :currentUserData="user" />
     <div class="username">{{ user.username }}</div>
     <div class="self-introduction">{{ user.selfIntroduction }}</div>
+    <div class="user-info-row">
+      <span class="date-of-birth">{{ user.dateOfBirth ? user.dateOfBirth.slice(0, 10) : '' }}</span>
+      <span class="user-location">{{ user.location }}</span>
+    </div>
     <div class="follower-info">
       <router-link :to="`/${user.id}/following`" class="follower-link">
         {{ user.followingNum }} Following
@@ -21,14 +26,19 @@ import { useRoute } from 'vue-router';
 import { getUserInfo } from '../api/userApi';
 import { getTweetListByUserID } from '../api/tweetApi';
 import TweetList from '../components/TweetList.vue';
+import EditProfile from '../components/EditProfile.vue';
+
 const user = ref({});
 const tweetList = ref([]);
+const mounted = ref(false);
 const route = useRoute();
+const showEditButon = route.params.userID === localStorage.getItem('userID');
 
 onMounted(async () => {
   try {
     await fetchUserInfo(route.params.userID)
     await fetchTweetList(route.params.userID)
+    mounted.value = true;
   } catch (error) {
     console.error('Error fetching user info:', error);
   }
@@ -71,6 +81,11 @@ const fetchTweetList = async (userID) => {
 .self-introduction {
   font-size: 1.2rem;
   margin-bottom: 20px;
+}
+
+.user-info-row {
+  color: #777;
+  margin-right: 20px;
 }
 
 .follower-info {

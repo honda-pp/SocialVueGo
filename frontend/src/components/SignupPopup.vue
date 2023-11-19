@@ -57,7 +57,3 @@ const signup = async () => {
   }
 };
 </script>
-
-<style>
-@import '../common-styles.css';
-</style>

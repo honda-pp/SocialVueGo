@@ -189,3 +189,27 @@ func HashPassword(user *models.User) error {
 func checkPassword(user *models.User) error {
 	return bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(user.Password))
 }
+
+func (h *UserHandler) EditProfile(c *gin.Context) {
+	var user models.User
+	if err := c.BindJSON(&user); err != nil {
+		logger.LogError(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload."})
+		return
+	}
+
+	/*
+		if err := h.UserUsecase.EditProfile(&user); err != nil {
+			logger.LogError("User information change failed: " + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to change user information."})
+			return
+		}
+	*/
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":  "user information change successful",
+		"userID":   strconv.Itoa(user.ID),
+		"username": user.Username,
+		"user":     user,
+	})
+}

@@ -1,6 +1,7 @@
 <template>
   <div class="user-info">
     <img :src="user.iconUrl" alt="User Icon" class="user-icon">
+    <EditProfile :currentUserData="user" />
     <div class="username">{{ user.username }}</div>
     <div class="self-introduction">{{ user.selfIntroduction }}</div>
     <div class="follower-info">
@@ -21,6 +22,8 @@ import { useRoute } from 'vue-router';
 import { getUserInfo } from '../api/userApi';
 import { getTweetListByUserID } from '../api/tweetApi';
 import TweetList from '../components/TweetList.vue';
+import EditProfile from '../components/EditProfile.vue';
+
 const user = ref({});
 const tweetList = ref([]);
 const route = useRoute();

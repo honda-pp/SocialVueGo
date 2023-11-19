@@ -34,3 +34,7 @@ func (u *UserUsecase) GetUserInfo(userID int) (*models.User, error) {
 func (u *UserUsecase) CreateUser(user *models.User) error {
 	return u.UserRepository.CreateUser(user)
 }
+
+func (u *UserUsecase) UpdateUserProfile(user *models.User) error {
+	return u.UserRepository.UpdateUserProfile(user)
+}

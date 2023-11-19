@@ -8,4 +8,5 @@ type UserRepository interface {
 	GetUserList() ([]*models.User, error)
 	GetUsersByRelationship(userID int, relationshipType string) ([]*models.User, error)
 	GetUserInfo(userID int) (*models.User, error)
+	UpdateUserProfile(user *models.User) error
 }

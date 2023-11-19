@@ -190,7 +190,7 @@ func checkPassword(user *models.User) error {
 	return bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(user.Password))
 }
 
-func (h *UserHandler) EditProfile(c *gin.Context) {
+func (h *UserHandler) UpdateUserProfile(c *gin.Context) {
 	var user models.User
 	if err := c.BindJSON(&user); err != nil {
 		logger.LogError(err.Error())
@@ -198,18 +198,21 @@ func (h *UserHandler) EditProfile(c *gin.Context) {
 		return
 	}
 
-	/*
-		if err := h.UserUsecase.EditProfile(&user); err != nil {
-			logger.LogError("User information change failed: " + err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to change user information."})
-			return
-		}
-	*/
+	session := sessions.Default(c)
+	userID := session.Get("userID").(int)
+	if user.ID != userID {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID."})
+		return
+	}
+
+	if err := h.UserUsecase.UpdateUserProfile(&user); err != nil {
+		logger.LogError("User profile update failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user profile."})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":  "user information change successful",
-		"userID":   strconv.Itoa(user.ID),
-		"username": user.Username,
-		"user":     user,
+		"message": "user profile update successful",
+		"user":    user,
 	})
 }

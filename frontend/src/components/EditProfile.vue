@@ -29,7 +29,7 @@ const buttonTitle = "Edit Profile"
 const errorMessage = ref('');
 
 const props =  defineProps({
-  currentUserData: Map
+  currentUserData: {}
 });
 const { currentUserData } =  toRefs(props);
 

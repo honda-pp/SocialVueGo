@@ -59,6 +59,7 @@ func (h *TweetHandler) CreateTweet(c *gin.Context) {
 
 	session := sessions.Default(c)
 	tweet.UserID = session.Get("userID").(int)
+	tweet.Username = session.Get("username").(string)
 
 	if err := h.TweetUsecase.CreateTweet(&tweet); err != nil {
 		logger.LogError("Failed to create tweet: " + err.Error())

@@ -1,7 +1,7 @@
 <template>
   <div class="user-info">
     <img :src="user.iconUrl" alt="User Icon" class="user-icon">
-    <EditProfile v-if="mounted" :currentUserData="user" />
+    <EditProfile v-if="mounted && showEditButon" :currentUserData="user" />
     <div class="username">{{ user.username }}</div>
     <div class="self-introduction">{{ user.selfIntroduction }}</div>
     <div class="follower-info">
@@ -28,6 +28,7 @@ const user = ref({});
 const tweetList = ref([]);
 const mounted = ref(false);
 const route = useRoute();
+const showEditButon = route.params.userID === localStorage.getItem('userID');
 
 onMounted(async () => {
   try {

@@ -34,16 +34,16 @@ const props =  defineProps({
 const { currentUserData } =  toRefs(props);
 
 const user = reactive({
+  ID: currentUserData.value.id,
   username: currentUserData.value.username,
-  iconUrl: currentUserData.value.iconUrl,
   selfIntroduction: currentUserData.value.selfIntroduction,
-  dateOfBirth: currentUserData.value.dateOfBirth,
+  dateOfBirth: currentUserData.value.dateOfBirth.slice(0, 10),
   location: currentUserData.value.location,
 });
 
 const updateProfile = async () => {
   try {
-    console.log(currentUserData)
+    user.dateOfBirth = user.dateOfBirth + "T00:00:00.000Z"
     const userResult = await updateUserProfile(user);
     currentUserData.value = userResult.user;
   } catch (error) {

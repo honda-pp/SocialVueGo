@@ -1,7 +1,7 @@
 <template>
   <div class="user-info">
     <img :src="user.iconUrl" alt="User Icon" class="user-icon">
-    <EditProfile :currentUserData="user" />
+    <EditProfile v-if="mounted" :currentUserData="user" />
     <div class="username">{{ user.username }}</div>
     <div class="self-introduction">{{ user.selfIntroduction }}</div>
     <div class="follower-info">
@@ -26,12 +26,14 @@ import EditProfile from '../components/EditProfile.vue';
 
 const user = ref({});
 const tweetList = ref([]);
+const mounted = ref(false);
 const route = useRoute();
 
 onMounted(async () => {
   try {
     await fetchUserInfo(route.params.userID)
     await fetchTweetList(route.params.userID)
+    mounted.value = true;
   } catch (error) {
     console.error('Error fetching user info:', error);
   }
